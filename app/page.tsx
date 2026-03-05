@@ -1,27 +1,75 @@
 'use client';
 
-import { motion } from 'motion/react';
-import { Brain, Sparkles, Mic, Settings, BarChart3, ChevronRight, PlayCircle, Zap } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { motion, useScroll, useTransform, useMotionValueEvent } from 'motion/react';
+import { Brain, Sparkles, Mic, Settings, BarChart3, ChevronRight, PlayCircle, Zap, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import TiltCard from './components/TiltCard';
+import InfiniteMarquee from './components/InfiniteMarquee';
 
 export default function LandingPage() {
+  const heroRef = useRef<HTMLElement>(null);
+  const helixaRef = useRef<HTMLDivElement>(null);
+  const [showStickyCta, setShowStickyCta] = useState(false);
+
+  /* ===== Scroll progress bar ===== */
+  const { scrollYProgress } = useScroll();
+
+  /* ===== Sticky CTA: show after hero scrolls out ===== */
+  const { scrollYProgress: heroProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  });
+  useMotionValueEvent(heroProgress, 'change', (v) => {
+    setShowStickyCta(v > 0.8);
+  });
+
+  /* ===== Helixa parallax: scale + opacity driven by scroll ===== */
+  const { scrollYProgress: helixaProgress } = useScroll({
+    target: helixaRef,
+    offset: ['start end', 'end start'],
+  });
+  const helixaScale = useTransform(helixaProgress, [0, 0.5, 1], [0.92, 1, 1.02]);
+  const helixaOpacity = useTransform(helixaProgress, [0, 0.3, 1], [0.5, 1, 1]);
+
+  /* ===== Speaker tooltip state ===== */
+  const [activeSpeaker, setActiveSpeaker] = useState<number | null>(null);
+
   const fadeInUp = {
     hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' as const } }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' as const } },
   };
 
   const staggerContainer = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2
-      }
-    }
+    visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
   };
+
+  const speakers = [
+    {
+      name: 'Андрей Горбунов',
+      bio: '10 лет в автоматизации бизнеса. Расскажет реальные истории внедрения.',
+      achievements: ['Автоматизировал 200+ бизнесов', 'CTO в AI-консалтинге', 'Эксперт в Битрикс24 + ИИ'],
+      gradient: 'from-purple-500 via-fuchsia-500 to-orange-500',
+      seed: 'speaker1',
+    },
+    {
+      name: 'Игорь Масленников',
+      bio: 'AI-визионер, архитектор интеллектуальных систем, создатель ИИ-операционки Helixa.',
+      achievements: ['Создатель Helixa OS', 'AI-архитектор с 15+ лет опыта', 'Основатель AI Dev Team'],
+      gradient: 'from-blue-500 via-cyan-500 to-emerald-500',
+      seed: 'speaker2',
+    },
+  ];
 
   return (
     <div className="min-h-screen relative overflow-hidden selection:bg-purple-500/30">
+      {/* ===== Scroll Progress Bar ===== */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-purple-500 via-fuchsia-500 to-blue-500 z-[60] scroll-progress"
+        style={{ scaleX: scrollYProgress }}
+      />
+
       {/* Background Neon Glows */}
       <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute top-[40%] right-[-10%] w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[150px] pointer-events-none" />
@@ -48,7 +96,7 @@ export default function LandingPage() {
 
       <main className="pt-32 pb-20">
         {/* Hero Section */}
-        <section className="max-w-7xl mx-auto px-6 pt-12 pb-24 flex flex-col items-center text-center relative z-10">
+        <section ref={heroRef} className="max-w-7xl mx-auto px-6 pt-12 pb-24 flex flex-col items-center text-center relative z-10">
           <motion.div
             initial="hidden"
             animate="visible"
@@ -66,7 +114,7 @@ export default function LandingPage() {
             className="font-display text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] mb-8 max-w-5xl"
           >
             Как конвертировать ИИ в деньги: <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-fuchsia-400 to-blue-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-fuchsia-400 to-blue-400 shimmer-text">
               реальные инструменты,
             </span>
             <br className="hidden md:block" /> эффективность которых можно посчитать.
@@ -135,7 +183,7 @@ export default function LandingPage() {
           </motion.div>
         </section>
 
-        {/* Cases Section */}
+        {/* Cases Section — with TiltCard */}
         <section className="max-w-7xl mx-auto px-6 py-24 relative z-10">
           <motion.div
             initial="hidden"
@@ -156,42 +204,48 @@ export default function LandingPage() {
             viewport={{ once: true, margin: "-100px" }}
             className="grid md:grid-cols-3 gap-6"
           >
-            {/* Case 1 */}
-            <motion.div variants={fadeInUp} className="p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10">
-              <div className="w-14 h-14 rounded-2xl bg-purple-500/20 flex items-center justify-center mb-6 border border-purple-500/30">
-                <Mic className="w-7 h-7 text-purple-400" />
-              </div>
-              <h3 className="text-xl font-bold mb-4 font-display">Голосовой ИИ "Речка"</h3>
-              <p className="text-gray-400 leading-relaxed">
-                Как анализ звонков вскрывает, где менеджеры реально сливают деньги.
-              </p>
+            <motion.div variants={fadeInUp}>
+              <TiltCard className="h-full p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10">
+                <div className="w-14 h-14 rounded-2xl bg-purple-500/20 flex items-center justify-center mb-6 border border-purple-500/30">
+                  <Mic className="w-7 h-7 text-purple-400" />
+                </div>
+                <h3 className="text-xl font-bold mb-4 font-display">Голосовой ИИ &quot;Речка&quot;</h3>
+                <p className="text-gray-400 leading-relaxed">
+                  Как анализ звонков вскрывает, где менеджеры реально сливают деньги.
+                </p>
+              </TiltCard>
             </motion.div>
 
-            {/* Case 2 */}
-            <motion.div variants={fadeInUp} className="p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10">
-              <div className="w-14 h-14 rounded-2xl bg-blue-500/20 flex items-center justify-center mb-6 border border-blue-500/30">
-                <Settings className="w-7 h-7 text-blue-400" />
-              </div>
-              <h3 className="text-xl font-bold mb-4 font-display">SEO-мультиагентка</h3>
-              <p className="text-gray-400 leading-relaxed">
-                Как мы запустили конвейер контента без штата копирайтеров.
-              </p>
+            <motion.div variants={fadeInUp}>
+              <TiltCard className="h-full p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10">
+                <div className="w-14 h-14 rounded-2xl bg-blue-500/20 flex items-center justify-center mb-6 border border-blue-500/30">
+                  <Settings className="w-7 h-7 text-blue-400" />
+                </div>
+                <h3 className="text-xl font-bold mb-4 font-display">SEO-мультиагентка</h3>
+                <p className="text-gray-400 leading-relaxed">
+                  Как мы запустили конвейер контента без штата копирайтеров.
+                </p>
+              </TiltCard>
             </motion.div>
 
-            {/* Case 3 */}
-            <motion.div variants={fadeInUp} className="p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10">
-              <div className="w-14 h-14 rounded-2xl bg-fuchsia-500/20 flex items-center justify-center mb-6 border border-fuchsia-500/30">
-                <BarChart3 className="w-7 h-7 text-fuchsia-400" />
-              </div>
-              <h3 className="text-xl font-bold mb-4 font-display">Аналитика без IT-отдела</h3>
-              <p className="text-gray-400 leading-relaxed">
-                Дашборд в Битриксе за 30 минут своими руками без долгих интеграций.
-              </p>
+            <motion.div variants={fadeInUp}>
+              <TiltCard className="h-full p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10">
+                <div className="w-14 h-14 rounded-2xl bg-fuchsia-500/20 flex items-center justify-center mb-6 border border-fuchsia-500/30">
+                  <BarChart3 className="w-7 h-7 text-fuchsia-400" />
+                </div>
+                <h3 className="text-xl font-bold mb-4 font-display">Аналитика без IT-отдела</h3>
+                <p className="text-gray-400 leading-relaxed">
+                  Дашборд в Битриксе за 30 минут своими руками без долгих интеграций.
+                </p>
+              </TiltCard>
             </motion.div>
           </motion.div>
         </section>
 
-        {/* Helixa & FOMO Section */}
+        {/* ===== Infinite Marquee ===== */}
+        <InfiniteMarquee />
+
+        {/* Helixa & FOMO Section — with parallax */}
         <section className="max-w-7xl mx-auto px-6 py-24 relative z-10">
           <motion.div
             initial="hidden"
@@ -209,10 +263,8 @@ export default function LandingPage() {
           </motion.div>
 
           <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeInUp}
+            ref={helixaRef}
+            style={{ scale: helixaScale, opacity: helixaOpacity }}
             className="relative p-1 rounded-3xl bg-gradient-to-r from-red-500 via-orange-500 to-red-500 shadow-[0_0_40px_rgba(239,68,68,0.3)]"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-orange-500 to-red-500 blur-xl opacity-50 rounded-3xl" />
@@ -244,16 +296,16 @@ export default function LandingPage() {
                 <PlayCircle className="w-8 h-8" />
               </div>
               <h2 className="font-display text-3xl md:text-5xl font-bold mb-8">
-                <span className="relative flex h-4 w-4 mr-2"><span className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span><span className="relative inline-flex rounded-full h-4 w-4 bg-red-500"></span></span> Прямо в эфире: Live-разбор вашего бизнеса
+                <span className="relative inline-flex h-4 w-4 mr-2 align-middle"><span className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span><span className="relative inline-flex rounded-full h-4 w-4 bg-red-500"></span></span> Прямо в эфире: Live-разбор вашего бизнеса
               </h2>
               <p className="text-xl text-gray-300 leading-relaxed max-w-3xl mx-auto">
-                Оставьте заявку ниже. Мы выберем зрителя, загрузим его проблему в наш Deep Think ИИ "Арина" и прямо на вебинаре выдадим пошаговый план AI-трансформации. Пишите в чате трансляции <strong className="text-white">«РАЗБОР»!</strong>
+                Оставьте заявку ниже. Мы выберем зрителя, загрузим его проблему в наш Deep Think ИИ &quot;Арина&quot; и прямо на вебинаре выдадим пошаговый план AI-трансформации. Пишите в чате трансляции <strong className="text-white">«РАЗБОР»!</strong>
               </p>
             </div>
           </motion.div>
         </section>
 
-        {/* Speakers Section */}
+        {/* Speakers Section — with hover tooltips */}
         <section className="max-w-7xl mx-auto px-6 py-24 relative z-10">
           <motion.div
             initial="hidden"
@@ -272,33 +324,42 @@ export default function LandingPage() {
             viewport={{ once: true, margin: "-100px" }}
             className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto"
           >
-            {/* Speaker 1 */}
-            <motion.div variants={fadeInUp} className="p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10 flex flex-col items-center text-center">
-              <div className="w-32 h-32 rounded-full mb-6 bg-gradient-to-tr from-purple-500 via-fuchsia-500 to-orange-500 p-1">
-                <div className="w-full h-full rounded-full bg-[#0B0F19] overflow-hidden relative">
-                  <div className="absolute inset-0 opacity-50 bg-[url('https://picsum.photos/seed/speaker1/200/200')] bg-cover bg-center mix-blend-luminosity" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F19] to-transparent" />
+            {speakers.map((speaker, i) => (
+              <motion.div
+                key={i}
+                variants={fadeInUp}
+                className="relative p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10 flex flex-col items-center text-center cursor-pointer"
+                onMouseEnter={() => setActiveSpeaker(i)}
+                onMouseLeave={() => setActiveSpeaker(null)}
+              >
+                <div className={`w-32 h-32 rounded-full mb-6 bg-gradient-to-tr ${speaker.gradient} p-1 transition-transform duration-300 ${activeSpeaker === i ? 'scale-110' : ''}`}>
+                  <div className="w-full h-full rounded-full bg-[#0B0F19] overflow-hidden relative">
+                    <div className={`absolute inset-0 opacity-50 bg-[url('https://picsum.photos/seed/${speaker.seed}/200/200')] bg-cover bg-center mix-blend-luminosity`} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F19] to-transparent" />
+                  </div>
                 </div>
-              </div>
-              <h3 className="text-2xl font-bold mb-2 font-display">Андрей Горбунов</h3>
-              <p className="text-gray-400 leading-relaxed">
-                10 лет в автоматизации бизнеса. Расскажет реальные истории внедрения.
-              </p>
-            </motion.div>
+                <h3 className="text-2xl font-bold mb-2 font-display">{speaker.name}</h3>
+                <p className="text-gray-400 leading-relaxed">{speaker.bio}</p>
 
-            {/* Speaker 2 */}
-            <motion.div variants={fadeInUp} className="p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10 flex flex-col items-center text-center">
-              <div className="w-32 h-32 rounded-full mb-6 bg-gradient-to-tr from-blue-500 via-cyan-500 to-emerald-500 p-1">
-                <div className="w-full h-full rounded-full bg-[#0B0F19] overflow-hidden relative">
-                  <div className="absolute inset-0 opacity-50 bg-[url('https://picsum.photos/seed/speaker2/200/200')] bg-cover bg-center mix-blend-luminosity" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F19] to-transparent" />
+                {/* Achievements tooltip */}
+                <div
+                  className={`absolute -bottom-2 left-1/2 -translate-x-1/2 translate-y-full w-72 p-4 rounded-2xl bg-[#161B2E]/95 backdrop-blur-xl border border-white/10 shadow-2xl transition-all duration-300 z-20 ${activeSpeaker === i
+                    ? 'opacity-100 pointer-events-auto translate-y-[calc(100%+8px)]'
+                    : 'opacity-0 pointer-events-none translate-y-[calc(100%+20px)]'
+                    }`}
+                >
+                  <div className="text-xs text-purple-400 font-semibold uppercase tracking-wider mb-2">Достижения</div>
+                  <ul className="space-y-1.5">
+                    {speaker.achievements.map((a, j) => (
+                      <li key={j} className="flex items-start gap-2 text-sm text-gray-300">
+                        <Sparkles className="w-3.5 h-3.5 text-purple-400 mt-0.5 shrink-0" />
+                        {a}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              </div>
-              <h3 className="text-2xl font-bold mb-2 font-display">Игорь Масленников</h3>
-              <p className="text-gray-400 leading-relaxed">
-                AI-визионер, архитектор интеллектуальных систем, создатель ИИ-операционки Helixa.
-              </p>
-            </motion.div>
+              </motion.div>
+            ))}
           </motion.div>
         </section>
 
@@ -369,6 +430,22 @@ export default function LandingPage() {
           </motion.div>
         </section>
       </main>
+
+      {/* ===== Sticky CTA (appears after scrolling past hero) ===== */}
+      <motion.div
+        className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50"
+        initial={{ opacity: 0, y: 20 }}
+        animate={showStickyCta ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}
+      >
+        <Link
+          href="#register"
+          className="group flex items-center gap-2 px-6 py-3.5 text-sm font-semibold text-white bg-gradient-to-r from-purple-600 to-blue-600 rounded-full shadow-[0_8px_32px_rgba(139,92,246,0.4)] hover:shadow-[0_8px_48px_rgba(139,92,246,0.6)] hover:scale-105 active:scale-95 transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50"
+        >
+          Занять место
+          <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+        </Link>
+      </motion.div>
 
       {/* Footer */}
       <footer className="border-t border-white/10 bg-[#0B0F19]/80 backdrop-blur-lg relative z-10">
