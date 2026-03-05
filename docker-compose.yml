@@ -1,0 +1,15 @@
+services:
+  eventland-app:
+    build: .
+    container_name: eventland-app
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+    networks:
+      - caddy_network
+
+networks:
+  caddy_network:
+    external: true

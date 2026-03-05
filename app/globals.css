@@ -2,8 +2,13 @@
 
 /* ===== Shimmer effect for gradient text ===== */
 @keyframes shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
+  0% {
+    background-position: -200% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
 }
 
 .shimmer-text {
@@ -13,8 +18,13 @@
 
 /* ===== Infinite Marquee ===== */
 @keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .animate-marquee {
@@ -31,6 +41,7 @@
   .shimmer-text {
     animation: none;
   }
+
   .animate-marquee {
     animation: none;
   }

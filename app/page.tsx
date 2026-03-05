@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react';
 import { motion, useScroll, useTransform, useMotionValueEvent } from 'motion/react';
-import { Brain, Sparkles, Mic, Settings, BarChart3, ChevronRight, PlayCircle, Zap, ArrowRight } from 'lucide-react';
+import { Brain, Sparkles, Mic, Settings, BarChart3, ChevronRight, PlayCircle, Zap, ArrowRight, Users, X } from 'lucide-react';
 import Link from 'next/link';
 import TiltCard from './components/TiltCard';
 import InfiniteMarquee from './components/InfiniteMarquee';
@@ -11,6 +11,8 @@ export default function LandingPage() {
   const heroRef = useRef<HTMLElement>(null);
   const helixaRef = useRef<HTMLDivElement>(null);
   const [showStickyCta, setShowStickyCta] = useState(false);
+  const [legalModal, setLegalModal] = useState<'privacy' | 'terms' | null>(null);
+  const [formStatus, setFormStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
   /* ===== Scroll progress bar ===== */
   const { scrollYProgress } = useScroll();
@@ -51,103 +53,233 @@ export default function LandingPage() {
       bio: '10 лет в автоматизации бизнеса. Расскажет реальные истории внедрения.',
       achievements: ['Автоматизировал 200+ бизнесов', 'CTO в AI-консалтинге', 'Эксперт в Битрикс24 + ИИ'],
       gradient: 'from-purple-500 via-fuchsia-500 to-orange-500',
-      seed: 'speaker1',
+      photo: '/speakers/andrew.jpg',
     },
     {
       name: 'Игорь Масленников',
       bio: 'AI-визионер, архитектор интеллектуальных систем, создатель ИИ-операционки Helixa.',
       achievements: ['Создатель Helixa OS', 'AI-архитектор с 15+ лет опыта', 'Основатель AI Dev Team'],
       gradient: 'from-blue-500 via-cyan-500 to-emerald-500',
-      seed: 'speaker2',
+      photo: '/speakers/igor.png',
     },
   ];
 
   return (
-    <div className="min-h-screen relative overflow-hidden selection:bg-purple-500/30">
+    <div className="min-h-screen relative overflow-hidden bg-zinc-950 selection:bg-white/20">
       {/* ===== Scroll Progress Bar ===== */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-purple-500 via-fuchsia-500 to-blue-500 z-[60] scroll-progress"
+        className="fixed top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-white/60 via-[#ffcd75]/80 to-white/40 z-[60] scroll-progress"
         style={{ scaleX: scrollYProgress }}
       />
 
-      {/* Background Neon Glows */}
-      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-[40%] right-[-10%] w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] left-[20%] w-[700px] h-[700px] bg-indigo-600/15 rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute top-[20%] left-[50%] -translate-x-1/2 w-[800px] h-[400px] bg-fuchsia-600/10 rounded-full blur-[120px] pointer-events-none" />
-
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-[#0B0F19]/80 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center shadow-[0_0_20px_rgba(139,92,246,0.3)]">
-              <span className="font-display font-bold text-white text-lg">AI</span>
-            </div>
-            <span className="font-display font-bold text-xl tracking-tight">Dev Team</span>
-          </div>
-          <Link
-            href="#register"
-            className="px-6 py-2.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-all font-medium text-sm hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50 cursor-pointer"
-          >
-            Занять место
-          </Link>
-        </div>
-      </header>
-
-      <main className="pt-32 pb-20">
+      <main className="pb-20">
         {/* Hero Section */}
-        <section ref={heroRef} className="max-w-7xl mx-auto px-6 pt-12 pb-24 flex flex-col items-center text-center relative z-10">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={fadeInUp}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-md"
-          >
-            <Zap className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-            <span className="text-sm font-medium text-gray-300">Бесплатный онлайн-мастер-класс</span>
-          </motion.div>
+        <section ref={heroRef} className="relative min-h-screen">
+          {/* ── Background image with gradient mask (from reference) ── */}
+          <div
+            className="absolute inset-0 z-0 bg-cover bg-center opacity-35"
+            style={{
+              backgroundImage: `url('https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/a72ca2f3-9dd1-4fe4-84ba-fe86468a5237_3840w.webp?w=1200&q=80')`,
+              maskImage: 'linear-gradient(180deg, transparent, black 8%, black 72%, transparent)',
+              WebkitMaskImage: 'linear-gradient(180deg, transparent, black 8%, black 72%, transparent)',
+            }}
+          />
 
-          <motion.h1
-            initial="hidden"
-            animate="visible"
-            variants={fadeInUp}
-            className="font-display text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] mb-8 max-w-5xl"
-          >
-            Как конвертировать ИИ в деньги: <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-fuchsia-400 to-blue-400 shimmer-text">
-              реальные инструменты,
-            </span>
-            <br className="hidden md:block" /> эффективность которых можно посчитать.
-          </motion.h1>
+          <div className="relative z-10 max-w-[1400px] mx-auto px-6 flex items-center min-h-screen">
+            <div className="grid md:grid-cols-2 gap-8 lg:gap-16 items-start">
 
-          <motion.p
-            initial="hidden"
-            animate="visible"
-            variants={fadeInUp}
-            className="text-lg md:text-xl text-gray-400 max-w-3xl mb-12 leading-relaxed"
-          >
-            ИИ встраивается только в выстроенные процессы. Если процессов нет — он ускорит ваш хаос.
-            Узнайте, как правильно заложить AI-фундамент, избавиться от рутины и обойти конкурентов.
-          </motion.p>
+              {/* ── LEFT: Content ── */}
+              <div className="flex flex-col items-start text-left pt-8">
+                {/* Badge */}
+                <motion.div
+                  initial="hidden"
+                  animate="visible"
+                  variants={fadeInUp}
+                  className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 backdrop-blur-md mb-8 transition-colors hover:bg-white/10"
+                >
+                  <Zap className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
+                  <span className="text-xs font-semibold uppercase tracking-wider text-zinc-300">
+                    Бесплатный онлайн-мастер-класс
+                  </span>
+                </motion.div>
 
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={fadeInUp}
-          >
-            <Link
-              href="#register"
-              className="group relative inline-flex items-center justify-center gap-3 px-8 py-5 text-lg font-semibold text-white transition-all duration-300 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl hover:scale-105 hover:shadow-[0_0_40px_rgba(139,92,246,0.5)] active:scale-95 overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50 cursor-pointer"
-            >
-              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
-              <span className="relative z-10">Иду на вебинар и хочу разбор</span>
-              <ChevronRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </motion.div>
+                {/* Heading — white-to-gold gradient + bottom mask */}
+                <motion.h1
+                  initial="hidden"
+                  animate="visible"
+                  variants={fadeInUp}
+                  className="font-display text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-medium tracking-tighter leading-[0.92] mb-8"
+                  style={{
+                    maskImage: 'linear-gradient(180deg, black 0%, black 82%, transparent 100%)',
+                    WebkitMaskImage: 'linear-gradient(180deg, black 0%, black 82%, transparent 100%)',
+                  }}
+                >
+                  Как конвертировать ИИ в деньги:<br />
+                  <span className="bg-gradient-to-br from-white via-white to-[#ffcd75] bg-clip-text text-transparent">
+                    реальные инструменты,
+                  </span><br />
+                  которые работают.
+                </motion.h1>
+
+                {/* Description */}
+                <motion.p
+                  initial="hidden"
+                  animate="visible"
+                  variants={fadeInUp}
+                  className="text-lg text-zinc-400 mb-10 leading-relaxed max-w-xl"
+                >
+                  ИИ без выстроенных процессов ускоряет хаос, а не результат.
+                  Узнайте, как правильно заложить AI-фундамент и обойти конкурентов.
+                </motion.p>
+
+                {/* CTAs */}
+                <motion.div
+                  initial="hidden"
+                  animate="visible"
+                  variants={fadeInUp}
+                  className="flex flex-col sm:flex-row gap-4"
+                >
+                  <Link
+                    href="#register"
+                    className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-sm font-semibold text-zinc-950 transition-all hover:scale-[1.02] hover:bg-zinc-200 active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+                  >
+                    Иду на вебинар и хочу разбор
+                    <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
+
+                  <Link
+                    href="#speakers"
+                    className="group inline-flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-8 py-4 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/10 hover:border-white/20 focus:outline-none"
+                  >
+                    <PlayCircle className="w-4 h-4" />
+                    Посмотреть спикеров
+                  </Link>
+                </motion.div>
+              </div>
+
+              {/* ── RIGHT: Stats Card + Marquee ── */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
+                className="hidden md:flex flex-col gap-6 lg:mt-12"
+              >
+                {/* Stats Card */}
+                <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-xl shadow-2xl">
+                  {/* White glow (from reference) */}
+                  <div className="absolute top-0 right-0 -mr-16 -mt-16 h-64 w-64 rounded-full bg-white/5 blur-3xl pointer-events-none" />
+
+                  <div className="relative z-10">
+                    {/* Top stat */}
+                    <div className="flex items-center gap-4 mb-8">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 ring-1 ring-white/20">
+                        <BarChart3 className="h-6 w-6 text-white" />
+                      </div>
+                      <div>
+                        <div className="text-3xl font-bold tracking-tight text-white">500+</div>
+                        <div className="text-sm text-zinc-400">Внедрений ИИ в бизнес</div>
+                      </div>
+                    </div>
+
+                    {/* Progress bar */}
+                    <div className="space-y-3 mb-8">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-zinc-400">Бизнес-сценариев с AI</span>
+                        <span className="text-white font-medium">8 направлений</span>
+                      </div>
+                      <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-800/50">
+                        <div className="h-full w-full rounded-full bg-gradient-to-r from-white to-zinc-400" />
+                      </div>
+                    </div>
+
+                    <div className="h-px w-full bg-white/10 mb-6" />
+
+                    {/* Mini stats */}
+                    <div className="grid grid-cols-3 gap-4 text-center">
+                      <div className="flex flex-col items-center justify-center transition-transform hover:-translate-y-1 cursor-default">
+                        <span className="text-xl font-bold text-white sm:text-2xl">1ч</span>
+                        <span className="text-[10px] uppercase tracking-wider text-zinc-500 font-medium sm:text-xs">Эфир</span>
+                      </div>
+                      <div className="w-px h-full bg-white/10 mx-auto" />
+                      <div className="flex flex-col items-center justify-center transition-transform hover:-translate-y-1 cursor-default">
+                        <span className="text-xl font-bold text-white sm:text-2xl">0₽</span>
+                        <span className="text-[10px] uppercase tracking-wider text-zinc-500 font-medium sm:text-xs">Стоимость</span>
+                      </div>
+                      <div className="w-px h-full bg-white/10 mx-auto" />
+                      <div className="flex flex-col items-center justify-center transition-transform hover:-translate-y-1 cursor-default">
+                        <span className="text-xl font-bold text-white sm:text-2xl">15+</span>
+                        <span className="text-[10px] uppercase tracking-wider text-zinc-500 font-medium sm:text-xs">Кейсов</span>
+                      </div>
+                    </div>
+
+                    {/* Tags */}
+                    <div className="mt-8 flex flex-wrap gap-2">
+                      <div className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-medium tracking-wide text-zinc-300">
+                        <span className="relative flex h-2 w-2">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                        </span>
+                        РЕГИСТРАЦИЯ ОТКРЫТА
+                      </div>
+                      <div className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-medium tracking-wide text-zinc-300">
+                        <Zap className="w-3 h-3 text-yellow-400 fill-yellow-400" />
+                        БЕСПЛАТНО
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Tools Marquee Card */}
+                <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 py-6 backdrop-blur-xl">
+                  <p className="mb-4 px-8 text-xs font-medium uppercase tracking-wider text-zinc-500">Что разберём на практике</p>
+                  <div
+                    className="relative flex overflow-hidden"
+                    style={{
+                      maskImage: 'linear-gradient(to right, transparent, black 20%, black 80%, transparent)',
+                      WebkitMaskImage: 'linear-gradient(to right, transparent, black 20%, black 80%, transparent)',
+                    }}
+                  >
+                    <div
+                      className="flex gap-10 whitespace-nowrap px-4"
+                      style={{ animation: 'marquee 30s linear infinite' }}
+                    >
+                      {[
+                        { name: 'ChatGPT', icon: Brain },
+                        { name: 'Маркетинг', icon: Zap },
+                        { name: 'Claude Code', icon: Sparkles },
+                        { name: 'Продажи', icon: BarChart3 },
+                        { name: 'Gemini', icon: Brain },
+                        { name: 'Аналитика', icon: Settings },
+                        { name: 'Битрикс24', icon: Settings },
+                        { name: 'Автоматизация', icon: Zap },
+                        { name: 'amoCRM', icon: BarChart3 },
+                        { name: 'Контент', icon: Sparkles },
+                        { name: 'ChatGPT', icon: Brain },
+                        { name: 'Маркетинг', icon: Zap },
+                        { name: 'Claude Code', icon: Sparkles },
+                        { name: 'Продажи', icon: BarChart3 },
+                        { name: 'Gemini', icon: Brain },
+                        { name: 'Аналитика', icon: Settings },
+                        { name: 'Битрикс24', icon: Settings },
+                        { name: 'Автоматизация', icon: Zap },
+                        { name: 'amoCRM', icon: BarChart3 },
+                        { name: 'Контент', icon: Sparkles },
+                      ].map((tool, i) => (
+                        <div key={i} className="flex items-center gap-2 opacity-50 hover:opacity-100 transition-all cursor-default grayscale hover:grayscale-0">
+                          <tool.icon className="h-5 w-5 text-white fill-current" />
+                          <span className="text-base font-bold text-white tracking-tight">{tool.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
         </section>
 
         {/* Storytelling Section */}
-        <section className="max-w-7xl mx-auto px-6 py-24 relative z-10">
+        <section className="max-w-[1400px] mx-auto px-6 py-24 relative z-10">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -184,7 +316,7 @@ export default function LandingPage() {
         </section>
 
         {/* Cases Section — with TiltCard */}
-        <section className="max-w-7xl mx-auto px-6 py-24 relative z-10">
+        <section className="max-w-[1400px] mx-auto px-6 py-24 relative z-10">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -246,7 +378,7 @@ export default function LandingPage() {
         <InfiniteMarquee />
 
         {/* Helixa & FOMO Section — with parallax */}
-        <section className="max-w-7xl mx-auto px-6 py-24 relative z-10">
+        <section className="max-w-[1400px] mx-auto px-6 py-24 relative z-10">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -280,7 +412,7 @@ export default function LandingPage() {
         </section>
 
         {/* Live Razbor Section */}
-        <section className="max-w-7xl mx-auto px-6 py-24 relative z-10">
+        <section className="max-w-[1400px] mx-auto px-6 py-24 relative z-10">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -306,7 +438,7 @@ export default function LandingPage() {
         </section>
 
         {/* Speakers Section — with hover tooltips */}
-        <section className="max-w-7xl mx-auto px-6 py-24 relative z-10">
+        <section id="speakers" className="max-w-[1400px] mx-auto px-6 py-24 relative z-10 scroll-mt-20">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -322,24 +454,23 @@ export default function LandingPage() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto"
+            className="grid md:grid-cols-2 gap-10 max-w-4xl mx-auto"
           >
             {speakers.map((speaker, i) => (
               <motion.div
                 key={i}
                 variants={fadeInUp}
-                className="relative p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10 flex flex-col items-center text-center cursor-pointer"
+                className="relative p-12 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10 flex flex-col items-center text-center cursor-pointer"
                 onMouseEnter={() => setActiveSpeaker(i)}
                 onMouseLeave={() => setActiveSpeaker(null)}
               >
-                <div className={`w-32 h-32 rounded-full mb-6 bg-gradient-to-tr ${speaker.gradient} p-1 transition-transform duration-300 ${activeSpeaker === i ? 'scale-110' : ''}`}>
+                <div className={`w-48 h-48 rounded-full mb-6 bg-gradient-to-tr ${speaker.gradient} p-1 transition-transform duration-300 ${activeSpeaker === i ? 'scale-110' : ''}`}>
                   <div className="w-full h-full rounded-full bg-[#0B0F19] overflow-hidden relative">
-                    <div className={`absolute inset-0 opacity-50 bg-[url('https://picsum.photos/seed/${speaker.seed}/200/200')] bg-cover bg-center mix-blend-luminosity`} />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F19] to-transparent" />
+                    <img src={speaker.photo} alt={speaker.name} className="absolute inset-0 w-full h-full object-cover" />
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold mb-2 font-display">{speaker.name}</h3>
-                <p className="text-gray-400 leading-relaxed">{speaker.bio}</p>
+                <h3 className="text-3xl font-bold mb-2 font-display">{speaker.name}</h3>
+                <p className="text-lg text-gray-400 leading-relaxed">{speaker.bio}</p>
 
                 {/* Achievements tooltip */}
                 <div
@@ -380,52 +511,93 @@ export default function LandingPage() {
               </h2>
             </div>
 
-            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-              <div className="space-y-4">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">Имя</label>
-                  <input
-                    type="text"
-                    id="name"
-                    className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all"
-                    placeholder="Иван Иванов"
-                  />
+            <form className="space-y-6" onSubmit={async (e) => {
+              e.preventDefault();
+              setFormStatus('loading');
+              const form = e.currentTarget;
+              const data = {
+                name: (form.elements.namedItem('name') as HTMLInputElement).value,
+                telegram: (form.elements.namedItem('telegram') as HTMLInputElement).value,
+                niche: (form.elements.namedItem('niche') as HTMLInputElement).value,
+                routine: (form.elements.namedItem('routine') as HTMLTextAreaElement).value,
+              };
+              try {
+                const res = await fetch('/api/register', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(data),
+                });
+                if (res.ok) {
+                  setFormStatus('success');
+                } else {
+                  setFormStatus('error');
+                }
+              } catch {
+                setFormStatus('error');
+              }
+            }}>
+              {formStatus === 'success' ? (
+                <div className="text-center py-12">
+                  <div className="text-5xl mb-4">✅</div>
+                  <h3 className="text-2xl font-bold text-white mb-2">Спасибо!</h3>
+                  <p className="text-gray-400">Ваша заявка принята. Мы свяжемся с вами в Telegram.</p>
                 </div>
-                <div>
-                  <label htmlFor="telegram" className="block text-sm font-medium text-gray-400 mb-2">Telegram</label>
-                  <input
-                    type="text"
-                    id="telegram"
-                    className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
-                    placeholder="@username"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="niche" className="block text-sm font-medium text-gray-400 mb-2">Ваша Ниша</label>
-                  <input
-                    type="text"
-                    id="niche"
-                    className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500/50 transition-all"
-                    placeholder="Например: E-commerce"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="routine" className="block text-sm font-medium text-gray-400 mb-2">Какая главная рутина сжирает ваше время?</label>
-                  <textarea
-                    id="routine"
-                    rows={4}
-                    className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all resize-none"
-                    placeholder="Опишите процесс, который отнимает больше всего времени..."
-                  />
-                </div>
-              </div>
+              ) : (
+                <>
+                  <div className="space-y-4">
+                    <div>
+                      <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">Имя</label>
+                      <input
+                        type="text"
+                        id="name"
+                        required
+                        className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all"
+                        placeholder="Иван Иванов"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="telegram" className="block text-sm font-medium text-gray-400 mb-2">Telegram</label>
+                      <input
+                        type="text"
+                        id="telegram"
+                        required
+                        className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                        placeholder="@username"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="niche" className="block text-sm font-medium text-gray-400 mb-2">Ваша Ниша</label>
+                      <input
+                        type="text"
+                        id="niche"
+                        className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500/50 transition-all"
+                        placeholder="Например: E-commerce"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="routine" className="block text-sm font-medium text-gray-400 mb-2">Какая главная рутина сжирает ваше время?</label>
+                      <textarea
+                        id="routine"
+                        rows={4}
+                        className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all resize-none"
+                        placeholder="Опишите процесс, который отнимает больше всего времени..."
+                      />
+                    </div>
+                  </div>
 
-              <button
-                type="submit"
-                className="w-full py-5 px-8 text-lg font-bold text-white bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(139,92,246,0.4)] transition-all active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50 cursor-pointer"
-              >
-                Забронировать место
-              </button>
+                  {formStatus === 'error' && (
+                    <p className="text-red-400 text-sm text-center">Ошибка при отправке. Попробуйте ещё раз.</p>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={formStatus === 'loading'}
+                    className="w-full py-5 px-8 text-lg font-bold text-white bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(139,92,246,0.4)] transition-all active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                  >
+                    {formStatus === 'loading' ? 'Отправка...' : 'Забронировать место'}
+                  </button>
+                </>
+              )}
             </form>
           </motion.div>
         </section>
@@ -449,7 +621,7 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="border-t border-white/10 bg-[#0B0F19]/80 backdrop-blur-lg relative z-10">
-        <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="max-w-[1400px] mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex flex-col gap-2 text-center md:text-left">
             <p className="text-gray-500 text-sm">
               © 2026 AI Dev Team. Все права защищены.
@@ -459,15 +631,99 @@ export default function LandingPage() {
             </a>
           </div>
           <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-center md:items-start text-center md:text-left">
-            <Link href="/privacy" className="text-gray-500 text-sm hover:text-gray-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 rounded-sm">
+            <button onClick={() => setLegalModal('privacy')} className="text-gray-500 text-sm hover:text-gray-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 rounded-sm cursor-pointer">
               Политика конфиденциальности
-            </Link>
-            <Link href="/terms" className="text-gray-500 text-sm hover:text-gray-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 rounded-sm">
+            </button>
+            <button onClick={() => setLegalModal('terms')} className="text-gray-500 text-sm hover:text-gray-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 rounded-sm cursor-pointer">
               Пользовательское соглашение
-            </Link>
+            </button>
           </div>
         </div>
       </footer>
+
+      {/* Legal Modal */}
+      {legalModal && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+          onClick={() => setLegalModal(null)}
+          onKeyDown={(e) => e.key === 'Escape' && setLegalModal(null)}
+        >
+          <div
+            className="relative w-full max-w-3xl max-h-[85vh] overflow-y-auto rounded-3xl bg-[#0B0F19] border border-white/10 p-8 md:p-12 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setLegalModal(null)}
+              className="absolute top-4 right-4 p-2 rounded-xl bg-white/5 hover:bg-white/10 transition-colors cursor-pointer"
+            >
+              <X className="w-5 h-5 text-gray-400" />
+            </button>
+
+            {legalModal === 'privacy' ? (
+              <article className="prose prose-invert prose-sm max-w-none text-gray-300">
+                <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 font-display">Политика конфиденциальности</h2>
+                <p className="text-gray-500 text-sm mb-6">Последнее обновление: {new Date().toLocaleDateString('ru-RU')}</p>
+                <h3 className="text-lg font-bold text-white mt-6 mb-3">1. Общие положения</h3>
+                <p>Настоящая политика обработки персональных данных составлена в соответствии с требованиями Федерального закона от 27.07.2006. №152-ФЗ «О персональных данных» и определяет порядок обработки персональных данных и меры по обеспечению безопасности персональных данных, предпринимаемые Оператором (AI Dev Team).</p>
+                <p>1.1. Оператор ставит своей важнейшей целью и условием осуществления своей деятельности соблюдение прав и свобод человека и гражданина при обработке его персональных данных.</p>
+                <p>1.2. Настоящая политика применяется ко всей информации, которую Оператор может получить о посетителях веб-сайта https://aidevteam.ru/.</p>
+                <h3 className="text-lg font-bold text-white mt-6 mb-3">2. Основные понятия</h3>
+                <ul className="list-disc pl-6 space-y-1.5 mb-4">
+                  <li><strong>Автоматизированная обработка ПДн</strong> — обработка персональных данных с помощью средств вычислительной техники.</li>
+                  <li><strong>Веб-сайт</strong> — совокупность графических и информационных материалов, обеспечивающих их доступность в сети интернет.</li>
+                  <li><strong>Оператор</strong> — юридическое или физическое лицо, организующее обработку персональных данных.</li>
+                  <li><strong>Персональные данные</strong> — любая информация, относящаяся к определённому Пользователю веб-сайта.</li>
+                  <li><strong>Пользователь</strong> — любой посетитель веб-сайта.</li>
+                </ul>
+                <h3 className="text-lg font-bold text-white mt-6 mb-3">3. Обрабатываемые данные</h3>
+                <ul className="list-disc pl-6 space-y-1.5 mb-4">
+                  <li>Фамилия, Имя, Отчество (по желанию)</li>
+                  <li>Никнейм или идентификатор в Telegram</li>
+                  <li>Сфера деятельности (ниша бизнеса)</li>
+                  <li>Описание бизнес-процессов (рутины)</li>
+                </ul>
+                <h3 className="text-lg font-bold text-white mt-6 mb-3">4. Цели обработки</h3>
+                <p>Информирование Пользователя посредством отправки сообщений; предоставление доступа к сервисам и материалам веб-сайта.</p>
+                <h3 className="text-lg font-bold text-white mt-6 mb-3">5. Правовые основания</h3>
+                <p>Оператор обрабатывает ПДн только в случае их заполнения и/или отправки Пользователем самостоятельно через формы на веб-сайте.</p>
+                <h3 className="text-lg font-bold text-white mt-6 mb-3">6. Порядок хранения и защиты</h3>
+                <p>Оператор обеспечивает сохранность ПДн и принимает все возможные меры, исключающие доступ к данным неуполномоченных лиц. ПДн никогда не будут переданы третьим лицам, за исключением случаев, связанных с исполнением действующего законодательства.</p>
+                <h3 className="text-lg font-bold text-white mt-6 mb-3">7. Заключительные положения</h3>
+                <p>Пользователь может получить любые разъяснения, обратившись к Оператору. Политика действует бессрочно до замены её новой версией.</p>
+              </article>
+            ) : (
+              <article className="prose prose-invert prose-sm max-w-none text-gray-300">
+                <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 font-display">Пользовательское соглашение (Публичная оферта)</h2>
+                <p className="text-gray-500 text-sm mb-6">Последнее обновление: {new Date().toLocaleDateString('ru-RU')}</p>
+                <h3 className="text-lg font-bold text-white mt-6 mb-3">1. Общие положения</h3>
+                <p>1.1. Настоящее Пользовательское соглашение регулирует отношения между проектом &quot;AI Dev Team&quot; (далее — Администрация) и любым лицом, посещающим веб-сайт или использующим его сервисы (далее — Пользователь).</p>
+                <p>1.2. Использование сервисов означает безоговорочное согласие Пользователя с настоящим Соглашением. Настоящее Соглашение является публичной офертой согласно ст. 437 ГК РФ.</p>
+                <h3 className="text-lg font-bold text-white mt-6 mb-3">2. Предмет соглашения</h3>
+                <p>Администрация предоставляет Пользователю доступ к бесплатным или платным материалам, вебинарам и прочей информации. Заполнение любой формы означает акцепт настоящей оферты и согласие на обработку ПДн.</p>
+                <h3 className="text-lg font-bold text-white mt-6 mb-3">3. Права и обязанности</h3>
+                <p><strong>Пользователь обязуется:</strong></p>
+                <ul className="list-disc pl-6 space-y-1.5 mb-4">
+                  <li>Предоставлять достоверные данные при заполнении форм.</li>
+                  <li>Не использовать автоматизированные скрипты для сбора информации.</li>
+                  <li>Соблюдать имущественные и неимущественные права авторов.</li>
+                </ul>
+                <p><strong>Администрация вправе:</strong></p>
+                <ul className="list-disc pl-6 space-y-1.5 mb-4">
+                  <li>Изменять оформление, содержание или приостанавливать работу сайта.</li>
+                  <li>Посылать информационные сообщения по оставленным реквизитам.</li>
+                  <li>Модерировать и отклонять заявки без объяснения причин.</li>
+                </ul>
+                <h3 className="text-lg font-bold text-white mt-6 mb-3">4. Согласие на обработку ПДн</h3>
+                <p>В соответствии со ст. 9 №152-ФЗ, Пользователь, нажимая кнопку &quot;Забронировать место&quot;, свободно даёт согласие на обработку своих персональных данных. Согласие действует бессрочно и может быть отозвано.</p>
+                <h3 className="text-lg font-bold text-white mt-6 mb-3">5. Ответственность</h3>
+                <p>Администрация не несёт ответственности за убытки, возникшие в связи с использованием материалов. Все материалы носят информационно-консультационный характер.</p>
+                <h3 className="text-lg font-bold text-white mt-6 mb-3">6. Заключительные положения</h3>
+                <p>Все споры подлежат разрешению в соответствии с законодательством РФ. Соглашение может быть изменено без специального уведомления.</p>
+              </article>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
