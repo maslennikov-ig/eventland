@@ -325,7 +325,7 @@ export default function LandingPage() {
             className="text-center mb-16"
           >
             <h2 className="font-display text-3xl md:text-5xl font-bold mb-6">
-              Боль <span className="text-purple-400">➔</span> AI-Автоматизация <span className="text-blue-400">➔</span> Результат
+              Боль <span className="text-emerald-400">➔</span> AI-Автоматизация <span className="text-amber-400">➔</span> Результат
             </h2>
           </motion.div>
 
@@ -338,8 +338,8 @@ export default function LandingPage() {
           >
             <motion.div variants={fadeInUp}>
               <TiltCard className="h-full p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10">
-                <div className="w-14 h-14 rounded-2xl bg-purple-500/20 flex items-center justify-center mb-6 border border-purple-500/30">
-                  <Mic className="w-7 h-7 text-purple-400" />
+                <div className="w-14 h-14 rounded-2xl bg-emerald-500/20 flex items-center justify-center mb-6 border border-emerald-500/30">
+                  <Mic className="w-7 h-7 text-emerald-400" />
                 </div>
                 <h3 className="text-xl font-bold mb-4 font-display">Голосовой ИИ &quot;Речка&quot;</h3>
                 <p className="text-gray-400 leading-relaxed">
@@ -362,8 +362,8 @@ export default function LandingPage() {
 
             <motion.div variants={fadeInUp}>
               <TiltCard className="h-full p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10">
-                <div className="w-14 h-14 rounded-2xl bg-fuchsia-500/20 flex items-center justify-center mb-6 border border-fuchsia-500/30">
-                  <BarChart3 className="w-7 h-7 text-fuchsia-400" />
+                <div className="w-14 h-14 rounded-2xl bg-amber-500/20 flex items-center justify-center mb-6 border border-amber-500/30">
+                  <BarChart3 className="w-7 h-7 text-amber-400" />
                 </div>
                 <h3 className="text-xl font-bold mb-4 font-display">Аналитика без IT-отдела</h3>
                 <p className="text-gray-400 leading-relaxed">
@@ -418,9 +418,9 @@ export default function LandingPage() {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeInUp}
-            className="p-10 md:p-16 rounded-[40px] bg-gradient-to-br from-purple-900/40 to-blue-900/40 border border-white/10 backdrop-blur-xl text-center relative overflow-hidden"
+            className="p-10 md:p-16 rounded-[40px] bg-gradient-to-br from-emerald-900/40 to-amber-900/40 border border-white/10 backdrop-blur-xl text-center relative overflow-hidden"
           >
-            <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/20 rounded-full blur-[80px]" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/20 rounded-full blur-[80px]" />
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/20 rounded-full blur-[80px]" />
 
             <div className="relative z-10">
@@ -479,11 +479,11 @@ export default function LandingPage() {
                     : 'opacity-0 pointer-events-none translate-y-[calc(100%+20px)]'
                     }`}
                 >
-                  <div className="text-xs text-purple-400 font-semibold uppercase tracking-wider mb-2">Достижения</div>
+                  <div className="text-xs text-emerald-400 font-semibold uppercase tracking-wider mb-2">Достижения</div>
                   <ul className="space-y-1.5">
                     {speaker.achievements.map((a, j) => (
                       <li key={j} className="flex items-start gap-2 text-sm text-gray-300">
-                        <Sparkles className="w-3.5 h-3.5 text-purple-400 mt-0.5 shrink-0" />
+                        <Sparkles className="w-3.5 h-3.5 text-emerald-400 mt-0.5 shrink-0" />
                         {a}
                       </li>
                     ))}
@@ -503,7 +503,7 @@ export default function LandingPage() {
             variants={fadeInUp}
             className="p-8 md:p-12 rounded-[40px] bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl relative"
           >
-            <div className="absolute -top-px left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent opacity-50" />
+            <div className="absolute -top-px left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-emerald-500 to-transparent opacity-50" />
 
             <div className="text-center mb-10">
               <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
@@ -551,7 +551,7 @@ export default function LandingPage() {
                         type="text"
                         id="name"
                         required
-                        className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all"
+                        className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
                         placeholder="Иван Иванов"
                       />
                     </div>
@@ -561,7 +561,7 @@ export default function LandingPage() {
                         type="text"
                         id="telegram"
                         required
-                        className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                        className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all"
                         placeholder="@username"
                       />
                     </div>
@@ -571,7 +571,7 @@ export default function LandingPage() {
                         type="text"
                         id="niche"
                         required
-                        className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500/50 transition-all"
+                        className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50 transition-all"
                         placeholder="Например: E-commerce"
                       />
                     </div>
@@ -581,7 +581,7 @@ export default function LandingPage() {
                         id="routine"
                         required
                         rows={4}
-                        className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all resize-none"
+                        className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all resize-none"
                         placeholder="Опишите процесс, который отнимает больше всего времени..."
                       />
                     </div>
@@ -594,7 +594,7 @@ export default function LandingPage() {
                   <button
                     type="submit"
                     disabled={formStatus === 'loading'}
-                    className="w-full py-5 px-8 text-lg font-bold text-white bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(139,92,246,0.4)] transition-all active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                    className="w-full py-5 px-8 text-lg font-bold text-white bg-gradient-to-r from-emerald-500 to-amber-500 rounded-2xl hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(16,185,129,0.4)] transition-all active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                   >
                     {formStatus === 'loading' ? 'Отправка...' : 'Забронировать место'}
                   </button>
@@ -614,7 +614,7 @@ export default function LandingPage() {
       >
         <Link
           href="#register"
-          className="group flex items-center gap-2 px-6 py-3.5 text-sm font-semibold text-white bg-gradient-to-r from-purple-600 to-blue-600 rounded-full shadow-[0_8px_32px_rgba(139,92,246,0.4)] hover:shadow-[0_8px_48px_rgba(139,92,246,0.6)] hover:scale-105 active:scale-95 transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50"
+          className="group flex items-center gap-2 px-6 py-3.5 text-sm font-semibold text-white bg-gradient-to-r from-emerald-500 to-amber-500 rounded-full shadow-[0_8px_32px_rgba(16,185,129,0.4)] hover:shadow-[0_8px_48px_rgba(16,185,129,0.6)] hover:scale-105 active:scale-95 transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50"
         >
           Занять место
           <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
