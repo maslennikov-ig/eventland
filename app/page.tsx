@@ -37,7 +37,7 @@ export default function LandingPage() {
             </div>
             <span className="font-display font-bold text-xl tracking-tight">Dev Team</span>
           </div>
-          <Link 
+          <Link
             href="#register"
             className="px-6 py-2.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-all font-medium text-sm hover:scale-105 active:scale-95"
           >
@@ -49,7 +49,7 @@ export default function LandingPage() {
       <main className="pt-32 pb-20">
         {/* Hero Section */}
         <section className="max-w-7xl mx-auto px-6 pt-12 pb-24 flex flex-col items-center text-center relative z-10">
-          <motion.div 
+          <motion.div
             initial="hidden"
             animate="visible"
             variants={fadeInUp}
@@ -59,7 +59,7 @@ export default function LandingPage() {
             <span className="text-sm font-medium text-gray-300">Бесплатный онлайн-мастер-класс</span>
           </motion.div>
 
-          <motion.h1 
+          <motion.h1
             initial="hidden"
             animate="visible"
             variants={fadeInUp}
@@ -72,13 +72,13 @@ export default function LandingPage() {
             <br className="hidden md:block" /> эффективность которых можно посчитать.
           </motion.h1>
 
-          <motion.p 
+          <motion.p
             initial="hidden"
             animate="visible"
             variants={fadeInUp}
             className="text-lg md:text-xl text-gray-400 max-w-3xl mb-12 leading-relaxed"
           >
-            ИИ встраивается только в выстроенные процессы. Если процессов нет — он ускорит ваш хаос. 
+            ИИ встраивается только в выстроенные процессы. Если процессов нет — он ускорит ваш хаос.
             Узнайте, как правильно заложить AI-фундамент, избавиться от рутины и обойти конкурентов.
           </motion.p>
 
@@ -87,7 +87,7 @@ export default function LandingPage() {
             animate="visible"
             variants={fadeInUp}
           >
-            <Link 
+            <Link
               href="#register"
               className="group relative inline-flex items-center justify-center gap-3 px-8 py-5 text-lg font-semibold text-white transition-all duration-300 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl hover:scale-105 hover:shadow-[0_0_40px_rgba(139,92,246,0.5)] active:scale-95 overflow-hidden"
             >
@@ -100,7 +100,7 @@ export default function LandingPage() {
 
         {/* Storytelling Section */}
         <section className="max-w-7xl mx-auto px-6 py-24 relative z-10">
-          <motion.div 
+          <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
@@ -110,7 +110,7 @@ export default function LandingPage() {
             <h2 className="font-display text-3xl md:text-5xl font-bold mb-6">Почему внедрение ИИ часто проваливается?</h2>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             variants={staggerContainer}
             initial="hidden"
             whileInView="visible"
@@ -137,7 +137,7 @@ export default function LandingPage() {
 
         {/* Cases Section */}
         <section className="max-w-7xl mx-auto px-6 py-24 relative z-10">
-          <motion.div 
+          <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
@@ -149,7 +149,7 @@ export default function LandingPage() {
             </h2>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             variants={staggerContainer}
             initial="hidden"
             whileInView="visible"
@@ -193,7 +193,7 @@ export default function LandingPage() {
 
         {/* Helixa & FOMO Section */}
         <section className="max-w-7xl mx-auto px-6 py-24 relative z-10">
-          <motion.div 
+          <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
@@ -208,7 +208,7 @@ export default function LandingPage() {
             </p>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
@@ -229,7 +229,7 @@ export default function LandingPage() {
 
         {/* Live Razbor Section */}
         <section className="max-w-7xl mx-auto px-6 py-24 relative z-10">
-          <motion.div 
+          <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
@@ -238,7 +238,7 @@ export default function LandingPage() {
           >
             <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/20 rounded-full blur-[80px]" />
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/20 rounded-full blur-[80px]" />
-            
+
             <div className="relative z-10">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-500/20 text-red-500 mb-8 animate-pulse">
                 <PlayCircle className="w-8 h-8" />
@@ -255,7 +255,7 @@ export default function LandingPage() {
 
         {/* Speakers Section */}
         <section className="max-w-7xl mx-auto px-6 py-24 relative z-10">
-          <motion.div 
+          <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
@@ -265,7 +265,7 @@ export default function LandingPage() {
             <h2 className="font-display text-4xl md:text-5xl font-bold">Спикеры</h2>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             variants={staggerContainer}
             initial="hidden"
             whileInView="visible"
@@ -294,7 +294,7 @@ export default function LandingPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F19] to-transparent" />
                 </div>
               </div>
-              <h3 className="text-2xl font-bold mb-2 font-display">Игорь</h3>
+              <h3 className="text-2xl font-bold mb-2 font-display">Игорь Масленников</h3>
               <p className="text-gray-400 leading-relaxed">
                 AI-визионер, архитектор интеллектуальных систем, создатель ИИ-операционки Helixa.
               </p>
@@ -304,7 +304,7 @@ export default function LandingPage() {
 
         {/* Registration Form */}
         <section id="register" className="max-w-3xl mx-auto px-6 py-24 relative z-10 scroll-mt-20">
-          <motion.div 
+          <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
@@ -312,7 +312,7 @@ export default function LandingPage() {
             className="p-8 md:p-12 rounded-[40px] bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl relative"
           >
             <div className="absolute -top-px left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent opacity-50" />
-            
+
             <div className="text-center mb-10">
               <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
                 Оставьте заявку на участие и шанс на бесплатный разбор
@@ -323,35 +323,35 @@ export default function LandingPage() {
               <div className="space-y-4">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">Имя</label>
-                  <input 
-                    type="text" 
-                    id="name" 
+                  <input
+                    type="text"
+                    id="name"
                     className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all"
                     placeholder="Иван Иванов"
                   />
                 </div>
                 <div>
                   <label htmlFor="telegram" className="block text-sm font-medium text-gray-400 mb-2">Telegram</label>
-                  <input 
-                    type="text" 
-                    id="telegram" 
+                  <input
+                    type="text"
+                    id="telegram"
                     className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                     placeholder="@username"
                   />
                 </div>
                 <div>
                   <label htmlFor="niche" className="block text-sm font-medium text-gray-400 mb-2">Ваша Ниша</label>
-                  <input 
-                    type="text" 
-                    id="niche" 
+                  <input
+                    type="text"
+                    id="niche"
                     className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500/50 transition-all"
                     placeholder="Например: E-commerce"
                   />
                 </div>
                 <div>
                   <label htmlFor="routine" className="block text-sm font-medium text-gray-400 mb-2">Какая главная рутина сжирает ваше время?</label>
-                  <textarea 
-                    id="routine" 
+                  <textarea
+                    id="routine"
                     rows={4}
                     className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all resize-none"
                     placeholder="Опишите процесс, который отнимает больше всего времени..."
@@ -359,7 +359,7 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              <button 
+              <button
                 type="submit"
                 className="w-full py-5 px-8 text-lg font-bold text-white bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(139,92,246,0.4)] transition-all active:scale-[0.98]"
               >
@@ -373,12 +373,22 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="border-t border-white/10 bg-[#0B0F19]/80 backdrop-blur-lg relative z-10">
         <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-gray-500 text-sm">
-            Копирайт © 2026 AI Dev Team.
-          </p>
-          <Link href="#" className="text-gray-500 text-sm hover:text-gray-300 transition-colors">
-            Политика конфиденциальности
-          </Link>
+          <div className="flex flex-col gap-2 text-center md:text-left">
+            <p className="text-gray-500 text-sm">
+              © 2026 AI Dev Team. Все права защищены.
+            </p>
+            <a href="https://aidevteam.ru/" target="_blank" rel="noopener noreferrer" className="text-gray-500 text-sm hover:text-gray-300 transition-colors block">
+              Официальный сайт: aidevteam.ru
+            </a>
+          </div>
+          <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-center md:items-start text-center md:text-left">
+            <Link href="/privacy" className="text-gray-500 text-sm hover:text-gray-300 transition-colors">
+              Политика конфиденциальности
+            </Link>
+            <Link href="/terms" className="text-gray-500 text-sm hover:text-gray-300 transition-colors">
+              Пользовательское соглашение
+            </Link>
+          </div>
         </div>
       </footer>
     </div>
