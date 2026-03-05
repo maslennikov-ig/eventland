@@ -570,6 +570,7 @@ export default function LandingPage() {
                       <input
                         type="text"
                         id="niche"
+                        required
                         className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-fuchsia-500/50 focus:border-fuchsia-500/50 transition-all"
                         placeholder="Например: E-commerce"
                       />
@@ -578,6 +579,7 @@ export default function LandingPage() {
                       <label htmlFor="routine" className="block text-sm font-medium text-gray-400 mb-2">Какая главная рутина сжирает ваше время?</label>
                       <textarea
                         id="routine"
+                        required
                         rows={4}
                         className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all resize-none"
                         placeholder="Опишите процесс, который отнимает больше всего времени..."
