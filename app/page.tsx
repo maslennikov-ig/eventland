@@ -39,7 +39,7 @@ export default function LandingPage() {
           </div>
           <Link
             href="#register"
-            className="px-6 py-2.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-all font-medium text-sm hover:scale-105 active:scale-95"
+            className="px-6 py-2.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-all font-medium text-sm hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50 cursor-pointer"
           >
             Занять место
           </Link>
@@ -89,7 +89,7 @@ export default function LandingPage() {
           >
             <Link
               href="#register"
-              className="group relative inline-flex items-center justify-center gap-3 px-8 py-5 text-lg font-semibold text-white transition-all duration-300 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl hover:scale-105 hover:shadow-[0_0_40px_rgba(139,92,246,0.5)] active:scale-95 overflow-hidden"
+              className="group relative inline-flex items-center justify-center gap-3 px-8 py-5 text-lg font-semibold text-white transition-all duration-300 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl hover:scale-105 hover:shadow-[0_0_40px_rgba(139,92,246,0.5)] active:scale-95 overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50 cursor-pointer"
             >
               <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
               <span className="relative z-10">Иду на вебинар и хочу разбор</span>
@@ -157,7 +157,7 @@ export default function LandingPage() {
             className="grid md:grid-cols-3 gap-6"
           >
             {/* Case 1 */}
-            <motion.div variants={fadeInUp} className="p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10 hover:-translate-y-2 transition-transform duration-300 hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
+            <motion.div variants={fadeInUp} className="p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10">
               <div className="w-14 h-14 rounded-2xl bg-purple-500/20 flex items-center justify-center mb-6 border border-purple-500/30">
                 <Mic className="w-7 h-7 text-purple-400" />
               </div>
@@ -168,7 +168,7 @@ export default function LandingPage() {
             </motion.div>
 
             {/* Case 2 */}
-            <motion.div variants={fadeInUp} className="p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10 hover:-translate-y-2 transition-transform duration-300 hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
+            <motion.div variants={fadeInUp} className="p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10">
               <div className="w-14 h-14 rounded-2xl bg-blue-500/20 flex items-center justify-center mb-6 border border-blue-500/30">
                 <Settings className="w-7 h-7 text-blue-400" />
               </div>
@@ -179,7 +179,7 @@ export default function LandingPage() {
             </motion.div>
 
             {/* Case 3 */}
-            <motion.div variants={fadeInUp} className="p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10 hover:-translate-y-2 transition-transform duration-300 hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
+            <motion.div variants={fadeInUp} className="p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10">
               <div className="w-14 h-14 rounded-2xl bg-fuchsia-500/20 flex items-center justify-center mb-6 border border-fuchsia-500/30">
                 <BarChart3 className="w-7 h-7 text-fuchsia-400" />
               </div>
@@ -240,11 +240,11 @@ export default function LandingPage() {
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/20 rounded-full blur-[80px]" />
 
             <div className="relative z-10">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-500/20 text-red-500 mb-8 animate-pulse">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-500/20 text-red-500 mb-8 motion-safe:animate-pulse">
                 <PlayCircle className="w-8 h-8" />
               </div>
               <h2 className="font-display text-3xl md:text-5xl font-bold mb-8">
-                <span className="relative flex h-4 w-4 mr-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span><span className="relative inline-flex rounded-full h-4 w-4 bg-red-500"></span></span> Прямо в эфире: Live-разбор вашего бизнеса
+                <span className="relative flex h-4 w-4 mr-2"><span className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span><span className="relative inline-flex rounded-full h-4 w-4 bg-red-500"></span></span> Прямо в эфире: Live-разбор вашего бизнеса
               </h2>
               <p className="text-xl text-gray-300 leading-relaxed max-w-3xl mx-auto">
                 Оставьте заявку ниже. Мы выберем зрителя, загрузим его проблему в наш Deep Think ИИ "Арина" и прямо на вебинаре выдадим пошаговый план AI-трансформации. Пишите в чате трансляции <strong className="text-white">«РАЗБОР»!</strong>
@@ -361,7 +361,7 @@ export default function LandingPage() {
 
               <button
                 type="submit"
-                className="w-full py-5 px-8 text-lg font-bold text-white bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(139,92,246,0.4)] transition-all active:scale-[0.98]"
+                className="w-full py-5 px-8 text-lg font-bold text-white bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(139,92,246,0.4)] transition-all active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50 cursor-pointer"
               >
                 Забронировать место
               </button>
@@ -382,10 +382,10 @@ export default function LandingPage() {
             </a>
           </div>
           <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-center md:items-start text-center md:text-left">
-            <Link href="/privacy" className="text-gray-500 text-sm hover:text-gray-300 transition-colors">
+            <Link href="/privacy" className="text-gray-500 text-sm hover:text-gray-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 rounded-sm">
               Политика конфиденциальности
             </Link>
-            <Link href="/terms" className="text-gray-500 text-sm hover:text-gray-300 transition-colors">
+            <Link href="/terms" className="text-gray-500 text-sm hover:text-gray-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 rounded-sm">
               Пользовательское соглашение
             </Link>
           </div>
