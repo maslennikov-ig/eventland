@@ -594,7 +594,7 @@ export default function LandingPage() {
                   <button
                     type="submit"
                     disabled={formStatus === 'loading'}
-                    className="w-full py-5 px-8 text-lg font-bold text-white bg-gradient-to-r from-emerald-500 to-amber-500 rounded-2xl hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(16,185,129,0.4)] transition-all active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                    className="w-full py-5 px-8 text-lg font-bold text-white bg-gradient-to-r from-emerald-700 to-emerald-900 rounded-2xl hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(6,95,70,0.5)] transition-all active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600/50 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                   >
                     {formStatus === 'loading' ? 'Отправка...' : 'Забронировать место'}
                   </button>
@@ -614,7 +614,7 @@ export default function LandingPage() {
       >
         <Link
           href="#register"
-          className="group flex items-center gap-2 px-6 py-3.5 text-sm font-semibold text-white bg-gradient-to-r from-emerald-500 to-amber-500 rounded-full shadow-[0_8px_32px_rgba(16,185,129,0.4)] hover:shadow-[0_8px_48px_rgba(16,185,129,0.6)] hover:scale-105 active:scale-95 transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50"
+          className="group flex items-center gap-2 px-6 py-3.5 text-sm font-semibold text-white bg-gradient-to-r from-emerald-700 to-emerald-900 rounded-full shadow-[0_8px_32px_rgba(6,95,70,0.4)] hover:shadow-[0_8px_48px_rgba(6,95,70,0.6)] hover:scale-105 active:scale-95 transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600/50"
         >
           Занять место
           <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
