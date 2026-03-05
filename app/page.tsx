@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'motion/react';
-import { Brain, Sparkles, Mic, Settings, BarChart3, ChevronRight, PlayCircle } from 'lucide-react';
+import { Brain, Sparkles, Mic, Settings, BarChart3, ChevronRight, PlayCircle, Zap } from 'lucide-react';
 import Link from 'next/link';
 
 export default function LandingPage() {
@@ -55,7 +55,7 @@ export default function LandingPage() {
             variants={fadeInUp}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-md"
           >
-            <span className="text-yellow-400">⚡</span>
+            <Zap className="w-4 h-4 text-yellow-500 fill-yellow-500" />
             <span className="text-sm font-medium text-gray-300">Бесплатный онлайн-мастер-класс</span>
           </motion.div>
 
@@ -244,7 +244,7 @@ export default function LandingPage() {
                 <PlayCircle className="w-8 h-8" />
               </div>
               <h2 className="font-display text-3xl md:text-5xl font-bold mb-8">
-                <span className="text-red-500">🔴</span> Прямо в эфире: Live-разбор вашего бизнеса
+                <span className="relative flex h-4 w-4 mr-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span><span className="relative inline-flex rounded-full h-4 w-4 bg-red-500"></span></span> Прямо в эфире: Live-разбор вашего бизнеса
               </h2>
               <p className="text-xl text-gray-300 leading-relaxed max-w-3xl mx-auto">
                 Оставьте заявку ниже. Мы выберем зрителя, загрузим его проблему в наш Deep Think ИИ "Арина" и прямо на вебинаре выдадим пошаговый план AI-трансформации. Пишите в чате трансляции <strong className="text-white">«РАЗБОР»!</strong>
