@@ -1,7 +1,7 @@
 'use client';
 
 const keywords = [
-    'AI', 'Automation', 'Deep Think', 'ROI', 'Helixa', 'Efficiency',
+    'AI', 'Automation', 'Deep Think', 'ROI', 'Оцифровка', 'Efficiency',
     'NLP', 'Agents', 'LLM', 'Качество', 'Прибыль', 'Масштаб',
 ];
 

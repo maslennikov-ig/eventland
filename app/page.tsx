@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react';
 import { motion, useScroll, useTransform, useMotionValueEvent } from 'motion/react';
-import { Brain, Sparkles, Mic, Settings, BarChart3, ChevronRight, PlayCircle, Zap, ArrowRight, Users, X } from 'lucide-react';
+import { Brain, Sparkles, Mic, Settings, BarChart3, ChevronRight, PlayCircle, Zap, ArrowRight, Users, X, CheckCircle, XCircle } from 'lucide-react';
 import Link from 'next/link';
 import TiltCard from './components/TiltCard';
 import InfiniteMarquee from './components/InfiniteMarquee';
@@ -38,13 +38,18 @@ export default function LandingPage() {
   const [activeSpeaker, setActiveSpeaker] = useState<number | null>(null);
 
   const fadeInUp = {
-    hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' as const } },
+    hidden: { opacity: 0, y: 40, filter: 'blur(10px)' },
+    visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } },
+  };
+
+  const springUp = {
+    hidden: { opacity: 0, y: 40, scale: 0.95 },
+    visible: { opacity: 1, y: 0, scale: 1, transition: { type: 'spring' as const, stiffness: 100, damping: 20 } },
   };
 
   const staggerContainer = {
     hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
+    visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
   };
 
   const speakers = [
@@ -52,14 +57,14 @@ export default function LandingPage() {
       name: 'Андрей Горбунов',
       bio: '10 лет в автоматизации бизнеса. Расскажет реальные истории внедрения.',
       achievements: ['Автоматизировал 200+ бизнесов', 'CTO в AI-консалтинге', 'Эксперт в Битрикс24 + ИИ'],
-      gradient: 'from-purple-500 via-fuchsia-500 to-orange-500',
+      gradient: 'from-amber-500 via-orange-500 to-red-500',
       photo: '/speakers/andrew.jpg',
     },
     {
       name: 'Игорь Масленников',
-      bio: 'AI-визионер, архитектор интеллектуальных систем, создатель ИИ-операционки Helixa.',
-      achievements: ['Создатель Helixa OS', 'AI-архитектор с 15+ лет опыта', 'Основатель AI Dev Team'],
-      gradient: 'from-blue-500 via-cyan-500 to-emerald-500',
+      bio: 'AI-визионер, архитектор интеллектуальных систем. 15+ лет в разработке.',
+      achievements: ['Автор ИИ-операционной системы', 'AI-архитектор с 15+ лет опыта', 'Основатель AI Dev Team'],
+      gradient: 'from-emerald-500 via-teal-500 to-blue-500',
       photo: '/speakers/igor.png',
     },
   ];
@@ -76,8 +81,11 @@ export default function LandingPage() {
         {/* Hero Section */}
         <section ref={heroRef} className="relative min-h-screen">
           {/* ── Background image with gradient mask (from reference) ── */}
-          <div
-            className="absolute inset-0 z-0 bg-cover bg-center opacity-35"
+          <motion.div
+            initial={{ scale: 1.1, opacity: 0 }}
+            animate={{ scale: 1, opacity: 0.35 }}
+            transition={{ duration: 3, ease: 'easeOut' }}
+            className="absolute inset-0 z-0 bg-cover bg-center"
             style={{
               backgroundImage: `url('https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/a72ca2f3-9dd1-4fe4-84ba-fe86468a5237_3840w.webp?w=1200&q=80')`,
               maskImage: 'linear-gradient(180deg, transparent, black 8%, black 72%, transparent)',
@@ -114,11 +122,10 @@ export default function LandingPage() {
                     WebkitMaskImage: 'linear-gradient(180deg, black 0%, black 82%, transparent 100%)',
                   }}
                 >
-                  Как конвертировать ИИ в деньги:<br />
+                  Как конвертировать ИИ в деньги<br />
                   <span className="bg-gradient-to-br from-white via-white to-[#ffcd75] bg-clip-text text-transparent">
-                    реальные инструменты,
-                  </span><br />
-                  которые работают.
+                    и посчитать результат
+                  </span>
                 </motion.h1>
 
                 {/* Description */}
@@ -128,8 +135,7 @@ export default function LandingPage() {
                   variants={fadeInUp}
                   className="text-lg text-zinc-400 mb-10 leading-relaxed max-w-xl"
                 >
-                  ИИ без выстроенных процессов ускоряет хаос, а не результат.
-                  Узнайте, как правильно заложить AI-фундамент и обойти конкурентов.
+                  Без «волшебных кнопок». Покажем, как заложить AI-фундамент, автоматизировать рутину и не сливать бюджеты. Разберём ваш бизнес в прямом эфире.
                 </motion.p>
 
                 {/* CTAs */}
@@ -141,10 +147,15 @@ export default function LandingPage() {
                 >
                   <Link
                     href="#register"
-                    className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-sm font-semibold text-zinc-950 transition-all hover:scale-[1.02] hover:bg-zinc-200 active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+                    className="group relative inline-flex items-center justify-center gap-2 rounded-full overflow-hidden bg-white px-8 py-4 text-sm font-semibold text-zinc-950 transition-all hover:scale-[1.02] active:scale-[0.98] shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
                   >
-                    Иду на вебинар и хочу разбор
-                    <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    {/* Shimmer effect */}
+                    <div className="absolute inset-0 -translate-x-full animate-[shimmer_2.5s_infinite] bg-gradient-to-r from-transparent via-zinc-900/10 to-transparent" />
+                    
+                    <span className="relative z-10 flex items-center gap-2">
+                      Иду на вебинар
+                      <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    </span>
                   </Link>
 
                   <Link
@@ -196,20 +207,20 @@ export default function LandingPage() {
 
                     {/* Mini stats */}
                     <div className="grid grid-cols-3 gap-4 text-center">
-                      <div className="flex flex-col items-center justify-center transition-transform hover:-translate-y-1 cursor-default">
+                      <motion.div variants={springUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="flex flex-col items-center justify-center transition-transform hover:-translate-y-1 cursor-default">
                         <span className="text-xl font-bold text-white sm:text-2xl">1ч</span>
                         <span className="text-[10px] uppercase tracking-wider text-zinc-500 font-medium sm:text-xs">Эфир</span>
-                      </div>
+                      </motion.div>
                       <div className="w-px h-full bg-white/10 mx-auto" />
-                      <div className="flex flex-col items-center justify-center transition-transform hover:-translate-y-1 cursor-default">
+                      <motion.div variants={springUp} initial="hidden" whileInView="visible" viewport={{ once: true }} transition={{ delay: 0.1 }} className="flex flex-col items-center justify-center transition-transform hover:-translate-y-1 cursor-default">
                         <span className="text-xl font-bold text-white sm:text-2xl">0₽</span>
                         <span className="text-[10px] uppercase tracking-wider text-zinc-500 font-medium sm:text-xs">Стоимость</span>
-                      </div>
+                      </motion.div>
                       <div className="w-px h-full bg-white/10 mx-auto" />
-                      <div className="flex flex-col items-center justify-center transition-transform hover:-translate-y-1 cursor-default">
+                      <motion.div variants={springUp} initial="hidden" whileInView="visible" viewport={{ once: true }} transition={{ delay: 0.2 }} className="flex flex-col items-center justify-center transition-transform hover:-translate-y-1 cursor-default">
                         <span className="text-xl font-bold text-white sm:text-2xl">15+</span>
                         <span className="text-[10px] uppercase tracking-wider text-zinc-500 font-medium sm:text-xs">Кейсов</span>
-                      </div>
+                      </motion.div>
                     </div>
 
                     {/* Tags */}
@@ -295,21 +306,44 @@ export default function LandingPage() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto"
+            className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto"
           >
-            <motion.div variants={fadeInUp} className="p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10 relative overflow-hidden group">
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500/50 to-orange-500/50" />
-              <div className="text-red-400 font-semibold mb-4 text-sm uppercase tracking-wider">Миф</div>
-              <p className="text-xl text-gray-300 leading-relaxed">
-                Купили подписку за $20, думали нейросеть заменит сотрудников и сделает всё сама.
+            <motion.div 
+              variants={fadeInUp} 
+              whileHover={{ y: -5, scale: 1.02 }} 
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              className="p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10 relative overflow-hidden group shadow-lg hover:shadow-red-500/10"
+            >
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500/50 to-orange-500/50 group-hover:h-full group-hover:opacity-10 transition-all duration-500" />
+              <div className="text-red-400 font-semibold mb-4 text-sm uppercase tracking-wider relative z-10">Ожидание чуда</div>
+              <p className="text-lg text-gray-300 leading-relaxed relative z-10">
+                Купили подписку за $20, думали нейросеть заменит сотрудников. Но чуда не происходит — она не&nbsp;заменяет людей.
               </p>
             </motion.div>
 
-            <motion.div variants={fadeInUp} className="p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10 relative overflow-hidden group">
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500/50 to-teal-500/50" />
-              <div className="text-emerald-400 font-semibold mb-4 text-sm uppercase tracking-wider">Реальность</div>
-              <p className="text-xl text-gray-300 leading-relaxed">
-                ИИ — это инструмент автоматизации. Невозможно автоматизировать бардак. Начните с оцифровки знаний.
+            <motion.div 
+              variants={fadeInUp} 
+              whileHover={{ y: -5, scale: 1.02 }} 
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              className="p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10 relative overflow-hidden group shadow-lg hover:shadow-amber-500/10"
+            >
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-500/50 to-yellow-500/50 group-hover:h-full group-hover:opacity-10 transition-all duration-500" />
+              <div className="text-amber-400 font-semibold mb-4 text-sm uppercase tracking-wider relative z-10">Автоматизация хаоса</div>
+              <p className="text-lg text-gray-300 leading-relaxed relative z-10">
+                ИИ встраивается только в выстроенные процессы. Если в компании бардак — ИИ просто ускоряет генерацию хаоса.
+              </p>
+            </motion.div>
+
+            <motion.div 
+              variants={fadeInUp} 
+              whileHover={{ y: -5, scale: 1.02 }} 
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              className="p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10 relative overflow-hidden group shadow-lg hover:shadow-purple-500/10"
+            >
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500/50 to-pink-500/50 group-hover:h-full group-hover:opacity-10 transition-all duration-500" />
+              <div className="text-purple-400 font-semibold mb-4 text-sm uppercase tracking-wider relative z-10">Слив бюджетов</div>
+              <p className="text-lg text-gray-300 leading-relaxed relative z-10">
+                Платите за сервисы и токены, но не понимаете, где реальный ROI. Подписки копятся, результата ноль.
               </p>
             </motion.div>
           </motion.div>
@@ -325,7 +359,7 @@ export default function LandingPage() {
             className="text-center mb-16"
           >
             <h2 className="font-display text-3xl md:text-5xl font-bold mb-6">
-              Боль <span className="text-emerald-400">➔</span> AI-Автоматизация <span className="text-amber-400">➔</span> Результат
+              Что вы получите на вебинаре
             </h2>
           </motion.div>
 
@@ -334,40 +368,60 @@ export default function LandingPage() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            className="grid md:grid-cols-3 gap-6"
+            className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
           >
-            <motion.div variants={fadeInUp}>
+            <motion.div variants={springUp}>
               <TiltCard className="h-full p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10">
                 <div className="w-14 h-14 rounded-2xl bg-emerald-500/20 flex items-center justify-center mb-6 border border-emerald-500/30">
-                  <Mic className="w-7 h-7 text-emerald-400" />
+                  <motion.div animate={{ y: [0, -4, 0] }} transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}>
+                    <Mic className="w-7 h-7 text-emerald-400" />
+                  </motion.div>
                 </div>
-                <h3 className="text-xl font-bold mb-4 font-display">Голосовой ИИ &quot;Речка&quot;</h3>
+                <h3 className="text-xl font-bold mb-4 font-display">Дыры в продажах</h3>
                 <p className="text-gray-400 leading-relaxed">
-                  Как анализ звонков вскрывает, где менеджеры реально сливают деньги.
+                  Разберём, как с помощью ИИ-анализа звонков вскрыть этапы, где менеджеры реально сливают клиентов и деньги.
                 </p>
               </TiltCard>
             </motion.div>
 
-            <motion.div variants={fadeInUp}>
+            <motion.div variants={springUp}>
               <TiltCard className="h-full p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10">
                 <div className="w-14 h-14 rounded-2xl bg-blue-500/20 flex items-center justify-center mb-6 border border-blue-500/30">
-                  <Settings className="w-7 h-7 text-blue-400" />
+                  <motion.div animate={{ y: [0, -4, 0] }} transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}>
+                    <Settings className="w-7 h-7 text-blue-400" />
+                  </motion.div>
                 </div>
-                <h3 className="text-xl font-bold mb-4 font-display">SEO-мультиагентка</h3>
+                <h3 className="text-xl font-bold mb-4 font-display">Конвейер контента</h3>
                 <p className="text-gray-400 leading-relaxed">
-                  Как мы запустили конвейер контента без штата копирайтеров.
+                  Как получать SEO-трафик и вести соцсети без раздутого штата копирайтеров. Покажем реальный кейс.
                 </p>
               </TiltCard>
             </motion.div>
 
-            <motion.div variants={fadeInUp}>
+            <motion.div variants={springUp}>
               <TiltCard className="h-full p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10">
                 <div className="w-14 h-14 rounded-2xl bg-amber-500/20 flex items-center justify-center mb-6 border border-amber-500/30">
-                  <BarChart3 className="w-7 h-7 text-amber-400" />
+                  <motion.div animate={{ y: [0, -4, 0] }} transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}>
+                    <BarChart3 className="w-7 h-7 text-amber-400" />
+                  </motion.div>
                 </div>
                 <h3 className="text-xl font-bold mb-4 font-display">Аналитика без IT-отдела</h3>
                 <p className="text-gray-400 leading-relaxed">
-                  Дашборд в Битриксе за 30 минут своими руками без долгих интеграций.
+                  Как за 30 минут собрать рабочий дашборд с метриками своими руками, без долгих интеграций.
+                </p>
+              </TiltCard>
+            </motion.div>
+
+            <motion.div variants={springUp}>
+              <TiltCard className="h-full p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10">
+                <div className="w-14 h-14 rounded-2xl bg-purple-500/20 flex items-center justify-center mb-6 border border-purple-500/30">
+                  <motion.div animate={{ y: [0, -4, 0] }} transition={{ repeat: Infinity, duration: 3.2, ease: "easeInOut" }}>
+                    <Brain className="w-7 h-7 text-purple-400" />
+                  </motion.div>
+                </div>
+                <h3 className="text-xl font-bold mb-4 font-display">«Второй мозг» компании</h3>
+                <p className="text-gray-400 leading-relaxed">
+                  С чего начать оцифровку базы знаний и регламентов, чтобы выстроить надёжный фундамент для внедрения ИИ.
                 </p>
               </TiltCard>
             </motion.div>
@@ -377,7 +431,82 @@ export default function LandingPage() {
         {/* ===== Infinite Marquee ===== */}
         <InfiniteMarquee />
 
-        {/* Helixa & FOMO Section — with parallax */}
+        {/* Qualification Section — Для кого */}
+        <section className="max-w-[1400px] mx-auto px-6 py-24 relative z-10">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeInUp}
+            className="text-center mb-16"
+          >
+            <h2 className="font-display text-3xl md:text-5xl font-bold mb-6">Для кого этот вебинар</h2>
+          </motion.div>
+
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto"
+          >
+            <motion.div 
+              variants={fadeInUp} 
+              whileHover={{ y: -5, scale: 1.01 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              className="p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10 relative overflow-hidden shadow-lg hover:shadow-emerald-500/10"
+            >
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500/50 to-teal-500/50" />
+              <div className="flex items-center gap-3 mb-6">
+                <CheckCircle className="w-6 h-6 text-emerald-400" />
+                <span className="text-emerald-400 font-semibold text-sm uppercase tracking-wider">Точно подойдёт</span>
+              </div>
+              <ul className="space-y-4 text-gray-300 leading-relaxed">
+                <li className="flex items-start gap-3">
+                  <Sparkles className="w-4 h-4 text-emerald-400 mt-1 shrink-0" />
+                  <span>Владельцам малого и среднего бизнеса, которые хотят снизить косты и получить измеримый результат</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Sparkles className="w-4 h-4 text-emerald-400 mt-1 shrink-0" />
+                  <span>Руководителям отделов продаж и маркетинга, которые хотят выйти из рутины операционки</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Sparkles className="w-4 h-4 text-emerald-400 mt-1 shrink-0" />
+                  <span>Тем, кто готов внедрять, а не просто слушать теорию</span>
+                </li>
+              </ul>
+            </motion.div>
+
+            <motion.div 
+              variants={fadeInUp} 
+              whileHover={{ y: -5, scale: 1.01 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              className="p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10 relative overflow-hidden shadow-lg hover:shadow-red-500/10"
+            >
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500/50 to-orange-500/50" />
+              <div className="flex items-center gap-3 mb-6">
+                <XCircle className="w-6 h-6 text-red-400" />
+                <span className="text-red-400 font-semibold text-sm uppercase tracking-wider">Точно не подойдёт</span>
+              </div>
+              <ul className="space-y-4 text-gray-300 leading-relaxed">
+                <li className="flex items-start gap-3">
+                  <X className="w-4 h-4 text-red-400 mt-1 shrink-0" />
+                  <span>Искателям «волшебной кнопки» — кто ждёт, что ИИ всё сделает сам</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <X className="w-4 h-4 text-red-400 mt-1 shrink-0" />
+                  <span>Теоретикам без реального бизнеса</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <X className="w-4 h-4 text-red-400 mt-1 shrink-0" />
+                  <span>Тем, у кого бизнес-процессы меняются каждый день — сплошной хаос без фундамента</span>
+                </li>
+              </ul>
+            </motion.div>
+          </motion.div>
+        </section>
+
+        {/* FOMO Section — with parallax */}
         <section className="max-w-[1400px] mx-auto px-6 py-24 relative z-10">
           <motion.div
             initial="hidden"
@@ -387,10 +516,10 @@ export default function LandingPage() {
             className="max-w-4xl mx-auto text-center mb-16"
           >
             <h2 className="font-display text-4xl md:text-5xl font-bold mb-8">
-              Helixa — «Второй мозг» вашей компании
+              «Второй мозг» вашей компании — фундамент, который окупится завтра
             </h2>
             <p className="text-xl text-gray-300 leading-relaxed">
-              Точечные инструменты работают, только если ими управлять системно. Helixa собирает регламенты, знания и процессы в единый ИИ-хаб.
+              Точечные инструменты работают, только если ими управлять системно. Оцифрованная база знаний собирает регламенты, данные и процессы в единую систему — и это становится фундаментом для любого ИИ.
             </p>
           </motion.div>
 
@@ -400,8 +529,9 @@ export default function LandingPage() {
             className="relative p-1 rounded-3xl bg-gradient-to-r from-red-500 via-orange-500 to-red-500 shadow-[0_0_40px_rgba(239,68,68,0.3)]"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-orange-500 to-red-500 blur-xl opacity-50 rounded-3xl" />
-            <div className="relative bg-[#0B0F19] p-8 md:p-12 rounded-[22px] text-center">
-              <h3 className="text-2xl md:text-3xl font-bold text-white mb-6 font-display uppercase tracking-wide">
+            <div className="relative bg-[#0B0F19] p-8 md:p-12 rounded-[22px] text-center overflow-hidden">
+              <div className="absolute inset-0 -translate-x-full animate-[shimmer_3s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent pointer-events-none" />
+              <h3 className="text-2xl md:text-3xl font-bold text-white mb-6 font-display uppercase tracking-wide relative z-10">
                 ПОЧЕМУ НАЧИНАТЬ НУЖНО УЖЕ СЕГОДНЯ?
               </h3>
               <p className="text-lg md:text-xl text-gray-300 leading-relaxed max-w-3xl mx-auto">
@@ -420,8 +550,8 @@ export default function LandingPage() {
             variants={fadeInUp}
             className="p-10 md:p-16 rounded-[40px] bg-gradient-to-br from-emerald-900/40 to-amber-900/40 border border-white/10 backdrop-blur-xl text-center relative overflow-hidden"
           >
-            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/20 rounded-full blur-[80px]" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/20 rounded-full blur-[80px]" />
+            <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }} transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }} className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/20 rounded-full blur-[80px]" />
+            <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }} transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }} className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/20 rounded-full blur-[80px]" />
 
             <div className="relative z-10">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-500/20 text-red-500 mb-8 motion-safe:animate-pulse">
@@ -431,7 +561,7 @@ export default function LandingPage() {
                 <span className="relative inline-flex h-4 w-4 mr-2 align-middle"><span className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span><span className="relative inline-flex rounded-full h-4 w-4 bg-red-500"></span></span> Прямо в эфире: Live-разбор вашего бизнеса
               </h2>
               <p className="text-xl text-gray-300 leading-relaxed max-w-3xl mx-auto">
-                Оставьте заявку ниже. Мы выберем зрителя, загрузим его проблему в наш Deep Think ИИ &quot;Арина&quot; и прямо на вебинаре выдадим пошаговый план AI-трансформации. Пишите в чате трансляции <strong className="text-white">«РАЗБОР»!</strong>
+                Хватит абстрактных лекций. Оставьте заявку ниже. На вебинаре мы выберем один из бизнесов зрителей и прямо в эфире построим пошаговую ИИ-стратегию автоматизации. Пишите в чате трансляции <strong className="text-white">«РАЗБОР»!</strong>
               </p>
             </div>
           </motion.div>
@@ -473,11 +603,15 @@ export default function LandingPage() {
                 <p className="text-lg text-gray-400 leading-relaxed">{speaker.bio}</p>
 
                 {/* Achievements tooltip */}
-                <div
-                  className={`absolute -bottom-2 left-1/2 -translate-x-1/2 translate-y-full w-72 p-4 rounded-2xl bg-[#161B2E]/95 backdrop-blur-xl border border-white/10 shadow-2xl transition-all duration-300 z-20 ${activeSpeaker === i
-                    ? 'opacity-100 pointer-events-auto translate-y-[calc(100%+8px)]'
-                    : 'opacity-0 pointer-events-none translate-y-[calc(100%+20px)]'
-                    }`}
+                <motion.div
+                  initial={false}
+                  animate={{ 
+                    opacity: activeSpeaker === i ? 1 : 0, 
+                    y: activeSpeaker === i ? 8 : 20, 
+                    pointerEvents: activeSpeaker === i ? 'auto' : 'none' 
+                  }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="absolute -bottom-2 left-1/2 -translate-x-1/2 translate-y-full w-72 p-4 rounded-2xl bg-[#161B2E]/95 backdrop-blur-xl border border-white/10 shadow-2xl z-20"
                 >
                   <div className="text-xs text-emerald-400 font-semibold uppercase tracking-wider mb-2">Достижения</div>
                   <ul className="space-y-1.5">
@@ -488,7 +622,7 @@ export default function LandingPage() {
                       </li>
                     ))}
                   </ul>
-                </div>
+                </motion.div>
               </motion.div>
             ))}
           </motion.div>
@@ -507,7 +641,7 @@ export default function LandingPage() {
 
             <div className="text-center mb-10">
               <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
-                Оставьте заявку на участие и шанс на бесплатный разбор
+                Займите место и получите шанс на бесплатный live-разбор
               </h2>
             </div>
 
@@ -544,8 +678,8 @@ export default function LandingPage() {
                 </div>
               ) : (
                 <>
-                  <div className="space-y-4">
-                    <div>
+                  <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }} className="space-y-4">
+                    <motion.div variants={fadeInUp}>
                       <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">Имя</label>
                       <input
                         type="text"
@@ -554,8 +688,8 @@ export default function LandingPage() {
                         className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
                         placeholder="Иван Иванов"
                       />
-                    </div>
-                    <div>
+                    </motion.div>
+                    <motion.div variants={fadeInUp}>
                       <label htmlFor="telegram" className="block text-sm font-medium text-gray-400 mb-2">Telegram</label>
                       <input
                         type="text"
@@ -564,8 +698,8 @@ export default function LandingPage() {
                         className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all"
                         placeholder="@username"
                       />
-                    </div>
-                    <div>
+                    </motion.div>
+                    <motion.div variants={fadeInUp}>
                       <label htmlFor="niche" className="block text-sm font-medium text-gray-400 mb-2">Ваша Ниша</label>
                       <input
                         type="text"
@@ -574,8 +708,8 @@ export default function LandingPage() {
                         className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50 transition-all"
                         placeholder="Например: E-commerce"
                       />
-                    </div>
-                    <div>
+                    </motion.div>
+                    <motion.div variants={fadeInUp}>
                       <label htmlFor="routine" className="block text-sm font-medium text-gray-400 mb-2">Какая главная рутина сжирает ваше время?</label>
                       <textarea
                         id="routine"
@@ -584,20 +718,22 @@ export default function LandingPage() {
                         className="w-full px-5 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all resize-none"
                         placeholder="Опишите процесс, который отнимает больше всего времени..."
                       />
-                    </div>
-                  </div>
+                    </motion.div>
+                  </motion.div>
 
                   {formStatus === 'error' && (
-                    <p className="text-red-400 text-sm text-center">Ошибка при отправке. Попробуйте ещё раз.</p>
+                    <p className="text-red-400 text-sm text-center mt-4">Ошибка при отправке. Попробуйте ещё раз.</p>
                   )}
 
-                  <button
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                     type="submit"
                     disabled={formStatus === 'loading'}
-                    className="w-full py-5 px-8 text-lg font-bold text-white bg-gradient-to-r from-emerald-700 to-emerald-900 rounded-2xl hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(6,95,70,0.5)] transition-all active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600/50 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                    className="w-full mt-6 py-5 px-8 text-lg font-bold text-white bg-gradient-to-r from-emerald-700 to-emerald-900 rounded-2xl shadow-[0_0_20px_rgba(6,95,70,0.3)] hover:shadow-[0_0_40px_rgba(6,95,70,0.6)] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600/50 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                   >
-                    {formStatus === 'loading' ? 'Отправка...' : 'Забронировать место'}
-                  </button>
+                    {formStatus === 'loading' ? 'Отправка...' : 'Иду на вебинар'}
+                  </motion.button>
                 </>
               )}
             </form>
@@ -616,7 +752,7 @@ export default function LandingPage() {
           href="#register"
           className="group flex items-center gap-2 px-6 py-3.5 text-sm font-semibold text-white bg-gradient-to-r from-emerald-700 to-emerald-900 rounded-full shadow-[0_8px_32px_rgba(6,95,70,0.4)] hover:shadow-[0_8px_48px_rgba(6,95,70,0.6)] hover:scale-105 active:scale-95 transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600/50"
         >
-          Занять место
+          Иду на вебинар
           <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
         </Link>
       </motion.div>
