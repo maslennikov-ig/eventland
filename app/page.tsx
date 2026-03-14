@@ -568,7 +568,7 @@ export default function LandingPage() {
         </section>
 
         {/* Speakers Section — with hover tooltips */}
-        <section id="speakers" className="max-w-[1400px] mx-auto px-6 py-24 relative z-10 scroll-mt-20">
+        <section id="speakers" className="max-w-[1400px] mx-auto px-6 py-24 relative z-30 scroll-mt-20">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -607,11 +607,11 @@ export default function LandingPage() {
                   initial={false}
                   animate={{ 
                     opacity: activeSpeaker === i ? 1 : 0, 
-                    y: activeSpeaker === i ? 8 : 20, 
+                    y: activeSpeaker === i ? -8 : 10, 
                     pointerEvents: activeSpeaker === i ? 'auto' : 'none' 
                   }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className="absolute -bottom-2 left-1/2 -translate-x-1/2 translate-y-full w-72 p-4 rounded-2xl bg-[#161B2E]/95 backdrop-blur-xl border border-white/10 shadow-2xl z-20"
+                  className="absolute -top-4 left-1/2 -translate-x-1/2 -translate-y-full w-72 p-4 rounded-2xl bg-[#161B2E]/95 backdrop-blur-xl border border-white/10 shadow-2xl z-30"
                 >
                   <div className="text-xs text-emerald-400 font-semibold uppercase tracking-wider mb-2">Достижения</div>
                   <ul className="space-y-1.5">
