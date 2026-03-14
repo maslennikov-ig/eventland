@@ -34,8 +34,6 @@ export default function LandingPage() {
   const helixaScale = useTransform(helixaProgress, [0, 0.5, 1], [0.92, 1, 1.02]);
   const helixaOpacity = useTransform(helixaProgress, [0, 0.3, 1], [0.5, 1, 1]);
 
-  /* ===== Speaker tooltip state ===== */
-  const [activeSpeaker, setActiveSpeaker] = useState<number | null>(null);
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 40, filter: 'blur(10px)' },
@@ -55,15 +53,25 @@ export default function LandingPage() {
   const speakers = [
     {
       name: 'Андрей Горбунов',
-      bio: 'Сооснователь и CTO Rechka.ai — B2B SaaS-платформы для речевой аналитики звонков. 10+ лет в автоматизации, с 2019 года работает с нейросетями.',
-      achievements: ['CTO Rechka.ai — речевая аналитика', 'Корпоративные AI-обучения с измеримым ROI', 'Мультиагентные системы на Claude'],
+      role: 'Сооснователь и CTO Rechka.ai',
+      bio: 'Создал B2B SaaS-платформу для речевой аналитики звонков. Более 10 лет превращает хаос в бизнес-процессах в работающие системы. С 2019 года внедряет нейросети в реальный бизнес — не в теории, а с измеримым ROI.',
+      achievements: [
+        '10+ лет в автоматизации бизнес-процессов',
+        'Корпоративные AI-тренинги с измеримыми результатами',
+        'Строит мультиагентные системы на Claude для SEO, контента и бизнес-задач',
+      ],
       gradient: 'from-amber-500 via-orange-500 to-red-500',
       photo: '/speakers/andrew.jpg',
     },
     {
       name: 'Игорь Масленников',
-      bio: 'Основатель ДНК IT и AI Dev Team. В команде уже 54 человека. Теперь над крупными IT-проектами работают от 1 до 3 человек + ИИ-агенты (вместо 10-20 человек ранее).',
-      achievements: ['200+ глубоких разборов бизнесов', '1000+ клиентов через ДНК IT', 'Крупный проект: 1-3 чел. + ИИ вместо 20'],
+      role: 'Основатель ДНК IT и AI Dev Team',
+      bio: 'IT-компания на 54 человека. Лично провёл глубокий разбор 200+ компаний — от хаоса до работающей системы. Создал AI Dev Team, где 1–3 человека + ИИ-агенты закрывают проекты, на которые раньше нужно было 10–20 специалистов.',
+      achievements: [
+        '1000+ клиентов через ДНК IT',
+        'Проекты за 1–2 недели вместо 2–3 месяцев, −80% затрат',
+        'Всё, о чём расскажет — проверено на собственных проектах и клиентах',
+      ],
       gradient: 'from-emerald-500 via-teal-500 to-blue-500',
       photo: '/speakers/igor.png',
     },
@@ -567,8 +575,8 @@ export default function LandingPage() {
           </motion.div>
         </section>
 
-        {/* Speakers Section — with hover tooltips */}
-        <section id="speakers" className="max-w-[1400px] mx-auto px-6 py-24 relative z-30 scroll-mt-20">
+        {/* Speakers Section */}
+        <section id="speakers" className="max-w-[1400px] mx-auto px-6 py-24 relative z-10 scroll-mt-20">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -584,45 +592,32 @@ export default function LandingPage() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            className="grid md:grid-cols-2 gap-10 max-w-4xl mx-auto"
+            className="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto"
           >
             {speakers.map((speaker, i) => (
               <motion.div
                 key={i}
                 variants={fadeInUp}
-                className="relative p-12 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10 flex flex-col items-center text-center cursor-pointer"
-                onMouseEnter={() => setActiveSpeaker(i)}
-                onMouseLeave={() => setActiveSpeaker(null)}
+                className="relative p-10 md:p-12 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10 flex flex-col items-center text-center group hover:border-white/20 transition-colors duration-300"
               >
-                <div className={`w-48 h-48 rounded-full mb-6 bg-gradient-to-tr ${speaker.gradient} p-1 transition-transform duration-300 ${activeSpeaker === i ? 'scale-110' : ''}`}>
+                <div className={`w-40 h-40 md:w-48 md:h-48 rounded-full mb-6 bg-gradient-to-tr ${speaker.gradient} p-1 group-hover:scale-105 transition-transform duration-500`}>
                   <div className="w-full h-full rounded-full bg-[#0B0F19] overflow-hidden relative">
                     <img src={speaker.photo} alt={speaker.name} className="absolute inset-0 w-full h-full object-cover" />
                   </div>
                 </div>
-                <h3 className="text-3xl font-bold mb-2 font-display">{speaker.name}</h3>
-                <p className="text-lg text-gray-400 leading-relaxed">{speaker.bio}</p>
+                <h3 className="text-2xl md:text-3xl font-bold mb-1 font-display">{speaker.name}</h3>
+                <p className={`text-sm font-semibold mb-4 bg-gradient-to-r ${speaker.gradient} bg-clip-text text-transparent`}>{speaker.role}</p>
+                <p className="text-base text-gray-400 leading-relaxed mb-6">{speaker.bio}</p>
 
-                {/* Achievements tooltip */}
-                <motion.div
-                  initial={false}
-                  animate={{ 
-                    opacity: activeSpeaker === i ? 1 : 0, 
-                    y: activeSpeaker === i ? -8 : 10, 
-                    pointerEvents: activeSpeaker === i ? 'auto' : 'none' 
-                  }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className="absolute -top-4 left-1/2 -translate-x-1/2 -translate-y-full w-72 p-4 rounded-2xl bg-[#161B2E]/95 backdrop-blur-xl border border-white/10 shadow-2xl z-30"
-                >
-                  <div className="text-xs text-emerald-400 font-semibold uppercase tracking-wider mb-2">Достижения</div>
-                  <ul className="space-y-1.5">
-                    {speaker.achievements.map((a, j) => (
-                      <li key={j} className="flex items-start gap-2 text-sm text-gray-300">
-                        <Sparkles className="w-3.5 h-3.5 text-emerald-400 mt-0.5 shrink-0" />
-                        {a}
-                      </li>
-                    ))}
-                  </ul>
-                </motion.div>
+                {/* Achievements inline */}
+                <div className="w-full border-t border-white/10 pt-5 space-y-2.5">
+                  {speaker.achievements.map((a, j) => (
+                    <div key={j} className="flex items-start gap-2.5 text-sm text-gray-300 text-left">
+                      <Sparkles className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
+                      <span>{a}</span>
+                    </div>
+                  ))}
+                </div>
               </motion.div>
             ))}
           </motion.div>
